@@ -1,6 +1,6 @@
 # Reddit Clone 🧠
 
-A simple Reddit-inspired discussion platform built with **Next.js 14 (App Router)** and **Tailwind CSS**.
+A simple Reddit-inspired discussion platform built with **Next.js 15 (App Router)** and **Tailwind CSS**.
 
 ## 🔧 Tech Stack
 
@@ -31,7 +31,7 @@ A simple Reddit-inspired discussion platform built with **Next.js 14 (App Router
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/reddit-clone.git
+git clone https://github.com/mostafa-elsayed19/reddit-clone.git
 cd reddit-clone
 ```
 
@@ -64,7 +64,3 @@ npm run dev
 ┣ 📄 postcss.config.js
 ┣ 📄 README.md
 ┗ ...
-
-## 📄 License
-
-This project is open-source and available under the MIT License.
