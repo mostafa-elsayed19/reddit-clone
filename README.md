@@ -48,19 +48,3 @@ npm run dev
 ```
 
 ### Visit http://localhost:3000 in your browser.
-
-## 📁 Project Structure
-
-📦 reddit-clone/
-┣ 📂 app/
-┃ ┣ 📂 login/
-┃ ┣ 📂 register/
-┃ ┣ layout.tsx
-┃ ┗ page.tsx
-┣ 📂 \_components/
-┃ ┣ InputField.tsx
-┃ ┗ Button.tsx
-┣ 📄 tailwind.config.ts
-┣ 📄 postcss.config.js
-┣ 📄 README.md
-┗ ...
