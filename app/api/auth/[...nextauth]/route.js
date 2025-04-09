@@ -1,4 +1,4 @@
-import { providers } from "@/app/_lib/providers";
+import { providers } from "@/_lib/providers";
 import NextAuth from "next-auth";
 
 const authConfig = {

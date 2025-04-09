@@ -4,27 +4,27 @@ A simple Reddit-inspired discussion platform built with **Next.js 15 (App Router
 
 ## 🔧 Tech Stack
 
--  **Next.js 14** – App Router, Client Components
--  **React** – Functional components with Hooks
--  **Tailwind CSS** – Utility-first CSS framework
--  **ESLint + Prettier** – Code formatting and linting
+- **Next.js 14** – App Router, Client Components
+- **React** – Functional components with Hooks
+- **Tailwind CSS** – Utility-first CSS framework
+- **ESLint + Prettier** – Code formatting and linting
 
 ## 🚀 Features (in progress)
 
--  [x] User login & registration forms
--  [ ] Authentication (coming soon)
--  [ ] Create posts
--  [ ] Comment system
--  [ ] Upvotes/Downvotes
--  [ ] Subreddits (categories)
--  [ ] Responsive design
+- [x] User login & registration forms
+- [x] Authentication (Google)
+- [ ] Create posts
+- [ ] Comment system
+- [ ] Upvotes/Downvotes
+- [ ] Subreddits (categories)
+- [ ] Responsive design
 
 ## 🔮 Future Enhancements
 
--  Dark Mode Support
--  Save Posts to Favorites
--  Real-time Comments (with sockets)
--  Notifications system
+- Dark Mode Support
+- Save Posts to Favorites
+- Real-time Comments (with sockets)
+- Notifications system
 
 ## 🧪 Getting Started
 
