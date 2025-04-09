@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import InputField from "@/_components/InputField";
-import Button from "@/_components/Button";
+import { InputField } from "@/app/_components/index";
+import { Button } from "@/app/_components/index";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
