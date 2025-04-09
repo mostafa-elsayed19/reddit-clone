@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { InputField } from "@/app/_components/index";
-import { Button } from "@/app/_components/index";
+import InputField from "@/_components/InputField";
+import Button from "@/_components/Button";
+import { signIn } from "next-auth/react";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -45,6 +46,12 @@ export default function LoginPage() {
         />
         <Button type="submit">Login</Button>
       </form>
+      <Button
+        type="submit"
+        onClick={() => signIn("google", { callbackUrl: "/" })}
+      >
+        Sign in with google
+      </Button>
       <p className="text-center text-sm text-gray-600">
         Don't have an account?{" "}
         <a href="/register" className="text-blue-500 hover:underline">

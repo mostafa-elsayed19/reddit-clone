@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/app/_components/index";
-import { InputField } from "@/app/_components/index";
+import Button from "@/_components/Button";
+import InputField from "@/_components/InputField";
 import { useState } from "react";
 
 export default function RegisterPage() {

@@ -1,16 +1,11 @@
 import Link from "next/link";
+import  Navbar  from "@/_components/Navbar";
 
 export default function Home() {
   return (
     <main className="mx-auto max-w-3xl space-y-6 p-4">
       {/* Navbar */}
-      <nav className="flex items-center justify-between border-b border-gray-300 py-4">
-        <h1 className="text-2xl font-bold">Reddit Mini</h1>
-        <Link href="/login" className="text-blue-600 hover:underline">
-          Login
-        </Link>
-      </nav>
-
+      <Navbar />
       {/* Post Form */}
       <section className="rounded-2xl bg-white p-4 shadow">
         <h2 className="mb-2 text-xl font-semibold">Create a Post</h2>
