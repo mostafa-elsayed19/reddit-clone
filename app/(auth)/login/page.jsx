@@ -20,6 +20,10 @@ export default function LoginPage() {
     e.preventDefault();
     // Handle login logic here
     console.log("Form submitted:", formData);
+    signIn("credentials", {
+      ...formData,
+      callbackUrl: "/",
+    });
   };
 
   return (

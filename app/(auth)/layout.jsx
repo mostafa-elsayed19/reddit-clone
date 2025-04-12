@@ -1,9 +1,24 @@
+"use client";
+
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
 export default function AuthLayout({ children }) {
-	return (
-		<div className="flex items-center justify-center min-h-screen bg-gray-100">
-			<div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
-				{children}
-			</div>
-		</div>
-	);
+  const { status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/");
+    }
+  }, [status]);
+
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-gray-100">
+      <div className="w-full max-w-md space-y-6 rounded bg-white p-8 shadow-md">
+        {children}
+      </div>
+    </div>
+  );
 }
