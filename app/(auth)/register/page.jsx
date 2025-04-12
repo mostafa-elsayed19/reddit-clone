@@ -3,6 +3,8 @@
 import Button from "@/_components/Button";
 import InputField from "@/_components/InputField";
 import { useState } from "react";
+import bcrypt from "bcryptjs";
+import { supabase } from "@/_lib/supabase";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -11,16 +13,36 @@ export default function RegisterPage() {
     password: "",
   });
 
-  const handleChange = (e) => {
+  function handleChange(e) {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-  };
+  }
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
     // Handle registration logic here
     console.log("Form submitted:", formData);
-  };
+
+    const password_hash = await bcrypt.hash(formData.password, 10);
+
+    const { data, error } = await supabase
+      .from("users")
+      .insert([
+        {
+          username: formData.username,
+          email: formData.email,
+          password_hash,
+          provider: "credentials",
+        },
+      ])
+      .select();
+
+    if (error) {
+      console.error("Error inserting data:", error);
+      return;
+    }
+    console.log("Data inserted successfully:", data);
+  }
 
   return (
     <>

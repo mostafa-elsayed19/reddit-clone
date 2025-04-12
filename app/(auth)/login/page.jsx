@@ -4,6 +4,7 @@ import { useState } from "react";
 import InputField from "@/_components/InputField";
 import Button from "@/_components/Button";
 import { signIn } from "next-auth/react";
+import bcrypt from "bcryptjs";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -11,20 +12,19 @@ export default function LoginPage() {
     password: "",
   });
 
-  const handleChange = (e) => {
+  function handleChange(e) {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  }
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
     // Handle login logic here
-    console.log("Form submitted:", formData);
     signIn("credentials", {
       ...formData,
       callbackUrl: "/",
     });
-  };
+  }
 
   return (
     <>

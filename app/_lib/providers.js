@@ -1,6 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { supabase } from "./supabase";
+import bcrypt from "bcryptjs";
 
 export const providers = [
   GoogleProvider({
@@ -30,9 +31,11 @@ export const providers = [
         .eq("provider", "credentials")
         .single();
 
+      console.log(error);
+
       if (!user || !user.password_hash) return null;
 
-      const isValid = password === user.password_hash;
+      const isValid = await bcrypt.compare(password, user.password_hash);
       if (!isValid) return null;
 
       return {
