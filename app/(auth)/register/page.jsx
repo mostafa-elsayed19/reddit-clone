@@ -5,8 +5,10 @@ import InputField from "@/_components/InputField";
 import { useState } from "react";
 import bcrypt from "bcryptjs";
 import { supabase } from "@/_lib/supabase";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -42,6 +44,7 @@ export default function RegisterPage() {
       return;
     }
     console.log("Data inserted successfully:", data);
+    router.push("/login");
   }
 
   return (
@@ -75,7 +78,9 @@ export default function RegisterPage() {
           placeholder="Enter your password"
           required={true}
         />
-        <Button type="submit">Register</Button>
+        <Button type="submit" fullWidth={true}>
+          Register
+        </Button>
       </form>
       <p className="text-center text-sm text-gray-600">
         Already have an account?{" "}

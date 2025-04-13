@@ -48,10 +48,13 @@ export default function LoginPage() {
           placeholder="Enter your password"
           required
         />
-        <Button type="submit">Login</Button>
+        <Button type="submit" fullWidth={true}>
+          Login
+        </Button>
       </form>
       <Button
         type="submit"
+        fullWidth={true}
         onClick={() => signIn("google", { callbackUrl: "/" })}
       >
         Sign in with google
