@@ -5,6 +5,7 @@ import InputField from "./InputField";
 import Button from "./Button";
 import { useSession } from "next-auth/react";
 import { supabase } from "@/_lib/supabase";
+import { createPost } from "@/_services/posts";
 
 function AddPost() {
   const { data: session } = useSession();
@@ -25,23 +26,14 @@ function AddPost() {
     // Handle form submission logic here
     console.log("Form submitted:", formData);
 
-    const { data, error } = await supabase
-      .from("posts")
-      .insert([
-        {
-          user_id: session?.user.id,
-          title: formData.title,
-          content: formData.content,
-        },
-      ])
-      .select();
+    const newPost = {
+      user_id: session?.user.id,
+      title: formData.title,
+      content: formData.content,
+    };
 
-    if (error) {
-      console.error("Error inserting data:", error);
-      return;
-    }
+    createPost(newPost);
 
-    console.log("Data inserted successfully:", data);
     setFormData({ title: "", content: "" });
   }
   return (

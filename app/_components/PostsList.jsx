@@ -1,4 +1,4 @@
-import { getPosts } from "@/_services/getPosts";
+import { getPosts } from "@/_services/posts";
 import PostCard from "./PostCard";
 
 async function PostsList() {

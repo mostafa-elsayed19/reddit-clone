@@ -1,14 +1,18 @@
 "use client";
 
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import User from "./User";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import Wrapper from "./Wrapper";
 
 function Navbar() {
   const { data: session, status } = useSession();
   const router = useRouter();
+
+  const pathname = usePathname();
+  const hideNavbar = pathname === "/login" || pathname === "/register";
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -16,17 +20,23 @@ function Navbar() {
     }
   }, [status]);
 
-  return (
-    <nav className="flex items-center justify-between border-b border-gray-300 py-4">
-      <h1 className="text-2xl font-bold">Reddit Mini</h1>
+  if (hideNavbar) {
+    return null;
+  }
 
-      {session?.user ? (
-        <User user={session.user} />
-      ) : (
-        <Link href="/login" className="text-blue-600 hover:underline">
-          Login
-        </Link>
-      )}
+  return (
+    <nav className="border-b border-gray-300">
+      <Wrapper className="flex items-center justify-between">
+        <h1 className="m-0 text-2xl font-bold">Reddit Mini</h1>
+
+        {session?.user ? (
+          <User user={session.user} />
+        ) : (
+          <Link href="/login" className="text-blue-600 hover:underline">
+            Login
+          </Link>
+        )}
+      </Wrapper>
     </nav>
   );
 }
