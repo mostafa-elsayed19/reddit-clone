@@ -1,5 +1,6 @@
 import Link from "next/link";
-import  Navbar  from "@/_components/Navbar";
+import Navbar from "@/_components/Navbar";
+import AddPost from "@/_components/AddPost";
 
 export default function Home() {
   return (
@@ -7,27 +8,7 @@ export default function Home() {
       {/* Navbar */}
       <Navbar />
       {/* Post Form */}
-      <section className="rounded-2xl bg-white p-4 shadow">
-        <h2 className="mb-2 text-xl font-semibold">Create a Post</h2>
-        <form className="space-y-3">
-          <input
-            type="text"
-            placeholder="Title"
-            className="w-full rounded-xl border px-4 py-2 focus:ring focus:ring-blue-300 focus:outline-none"
-          />
-          <textarea
-            placeholder="Say something..."
-            rows={3}
-            className="w-full rounded-xl border px-4 py-2 focus:ring focus:ring-blue-300 focus:outline-none"
-          ></textarea>
-          <button
-            type="submit"
-            className="rounded-xl bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-          >
-            Post
-          </button>
-        </form>
-      </section>
+      <AddPost />
 
       {/* Post List */}
       <section className="space-y-4">
