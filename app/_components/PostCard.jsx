@@ -1,16 +1,20 @@
+"use client";
 import Link from "next/link";
+import VoteSection from "./VoteSection";
+import { useRouter } from "next/navigation";
 
 function PostCard({ post }) {
+  const router = useRouter();
   return (
     <article
       key={post.id}
-      className="flex items-start gap-4 rounded-2xl bg-white p-4 shadow"
+      className="flex cursor-pointer items-start gap-4 rounded-2xl bg-white p-4 shadow transition-shadow duration-200 ease-in-out hover:bg-gray-50 hover:shadow-lg"
+      onClick={() => {
+        router.push(`/post/${post.id}`);
+      }}
     >
-      <div className="flex flex-col items-center text-gray-500">
-        <button>🔼</button>
-        <span>12</span>
-        <button>🔽</button>
-      </div>
+      <VoteSection flex_direction="flex-col" likes={post.likes} />
+
       <div className="flex-1">
         <h3 className="text-lg font-semibold">{post.title}</h3>
         <p className="mb-1 text-sm text-gray-500">
@@ -25,7 +29,7 @@ function PostCard({ post }) {
           href={`/post/${post.id}`}
           className="mt-2 inline-block text-sm text-blue-600 hover:underline"
         >
-          View Comments (3)
+          View Comments ({post.comments_count})
         </Link>
       </div>
     </article>
