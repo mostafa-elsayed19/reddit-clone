@@ -6,7 +6,7 @@ import Wrapper from "@/_components/Wrapper";
 import { getPostById } from "@/_services/posts";
 
 async function page({ params }) {
-  const postId = await params.id;
+  const { id: postId } = await params;
 
   const { post } = await getPostById(postId);
 
