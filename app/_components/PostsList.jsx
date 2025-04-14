@@ -1,8 +1,8 @@
-import { getPosts } from "@/_services/posts";
+import { getAllPosts } from "@/_services/posts";
 import PostCard from "./PostCard";
 
 async function PostsList() {
-  const { posts } = await getPosts();
+  const { posts } = await getAllPosts();
   return (
     <section className="space-y-4">
       {posts.map((post) => (

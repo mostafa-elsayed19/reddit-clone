@@ -18,7 +18,7 @@ export async function createPost(newPost) {
   console.log("Data inserted successfully:", newPost);
 }
 
-export async function getPosts() {
+export async function getAllPosts() {
   const { data: posts, error } = await supabase
     .from("posts")
     .select("*, users(username)")
@@ -32,7 +32,7 @@ export async function getPosts() {
   return { posts };
 }
 
-export async function getPost(id) {
+export async function getPostById(id) {
   const { data: post, error } = await supabase
     .from("posts")
     .select("*, users(username)")

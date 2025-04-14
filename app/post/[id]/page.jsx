@@ -3,12 +3,12 @@ import InputField from "@/_components/InputField";
 import PostContent from "@/_components/PostContent";
 import VoteSection from "@/_components/VoteSection";
 import Wrapper from "@/_components/Wrapper";
-import { getPost } from "@/_services/posts";
+import { getPostById } from "@/_services/posts";
 
 async function page({ params }) {
   const postId = await params.id;
 
-  const { post } = await getPost(postId);
+  const { post } = await getPostById(postId);
 
   //   {
   //     "id": "64256c7f-09c1-4615-b751-99448bbcd45e",
