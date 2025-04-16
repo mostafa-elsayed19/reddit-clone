@@ -1,12 +1,12 @@
 import Wrapper from "@/_components/Wrapper";
-import AddPost from "@/_components/AddPost";
+import PostForm from "@/_components/PostForm";
 import PostsList from "@/_components/PostsList";
 
 export default async function Home() {
   return (
     <Wrapper>
       {/* Post Form */}
-      <AddPost />
+      <PostForm />
 
       {/* Post List */}
       <PostsList />

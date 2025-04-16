@@ -2,8 +2,7 @@
 import { Menu } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-function OptionsMenu({ children }) {
-  const [isOpen, setIsOpen] = useState(false);
+function OptionsMenu({ children, setIsOpen, isOpen }) {
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
 
@@ -37,7 +36,7 @@ function OptionsMenu({ children }) {
       {isOpen && (
         <ul
           ref={menuRef}
-          className="rounded-md border border-gray-100 text-sm font-semibold shadow-md *:px-4 *:py-2 *:[&:not(:nth-last-child(-n+1))]:border-b *:[&:not(:nth-last-child(-n+1))]:border-gray-200"
+          className="rounded-md border border-gray-100 text-sm font-semibold shadow-md *:cursor-pointer *:px-4 *:py-2 *:[&:not(:nth-last-child(-n+1))]:border-b *:[&:not(:nth-last-child(-n+1))]:border-gray-200"
         >
           {children}
         </ul>

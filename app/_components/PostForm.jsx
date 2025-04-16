@@ -4,15 +4,18 @@ import { useState } from "react";
 import InputField from "./InputField";
 import Button from "./Button";
 import { useSession } from "next-auth/react";
-import { supabase } from "@/_lib/supabase";
-import { createPost } from "@/_services/posts";
 
-function AddPost() {
+import { createPost, updatePost } from "@/_services/posts";
+import { X } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+function PostForm({ edit, postId, title, content, closeModal }) {
   const { data: session } = useSession();
+  const router = useRouter();
 
   const [formData, setFormData] = useState({
-    title: "",
-    content: "",
+    title: title || "",
+    content: content || "",
     image: "",
   });
 
@@ -24,7 +27,6 @@ function AddPost() {
   async function handleSubmit(e) {
     e.preventDefault();
     // Handle form submission logic here
-    console.log("Form submitted:", formData);
 
     const newPost = {
       user_id: session?.user.id,
@@ -32,13 +34,27 @@ function AddPost() {
       content: formData.content,
     };
 
-    createPost(newPost);
-
+    if (edit) {
+      await updatePost(postId, newPost);
+      closeModal();
+      router.refresh();
+      return;
+    } else {
+      await createPost(newPost);
+    }
     setFormData({ title: "", content: "" });
   }
   return (
-    <section className="rounded-2xl bg-white p-4 shadow">
-      <h2 className="mb-2 text-xl font-semibold">Create a Post</h2>
+    <section className={`relative rounded-2xl bg-white p-4 shadow`}>
+      {edit && (
+        <X
+          className="absolute top-4 right-4 cursor-pointer"
+          onClick={closeModal}
+        />
+      )}
+      <h2 className="mb-2 text-xl font-semibold">
+        {!edit ? "Create a Post" : "Edit Post"}
+      </h2>
       <form className="space-y-3" onSubmit={handleSubmit}>
         <InputField
           placeholder="Title"
@@ -56,10 +72,10 @@ function AddPost() {
           rows={3}
           required={true}
         />
-        <Button type="submit">Post</Button>
+        <Button type="submit">{edit ? "Edit" : "Post"}</Button>
       </form>
     </section>
   );
 }
 
-export default AddPost;
+export default PostForm;

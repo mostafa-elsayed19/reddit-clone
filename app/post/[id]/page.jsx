@@ -28,6 +28,7 @@ async function page({ params }) {
   // }
 
   const {
+    user_id,
     title,
     content,
     likes,
@@ -38,7 +39,13 @@ async function page({ params }) {
   return (
     <Wrapper>
       <section className="rounded bg-white p-4 shadow">
-        <PostContent title={title} username={username} content={content} />
+        <PostContent
+          postId={postId}
+          title={title}
+          user_id={user_id}
+          content={content}
+          username={username}
+        />
 
         <VoteSection likes={likes} />
 
