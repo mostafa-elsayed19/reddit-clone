@@ -1,6 +1,6 @@
 "use client";
 import { Menu } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 function OptionsMenu({ children, setIsOpen, isOpen }) {
   const menuRef = useRef(null);

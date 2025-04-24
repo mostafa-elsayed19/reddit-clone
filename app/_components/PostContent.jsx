@@ -1,14 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import OptionsMenu from "./OptionsMenu";
-import PostForm from "./PostForm";
 import { useSession } from "next-auth/react";
 import { deletePost } from "@/_services/posts";
 import { useRouter } from "next/navigation";
 
+import OptionsMenu from "./OptionsMenu";
+import PostForm from "./PostForm";
+
 function PostContent({ postId, title, content, user_id, username }) {
   const { data: session } = useSession();
+  const isUser = session?.user.id === user_id;
+
   const router = useRouter();
 
   const [isOpenMenu, setIsOpenMenu] = useState(false);
@@ -16,7 +19,7 @@ function PostContent({ postId, title, content, user_id, username }) {
 
   async function handleDelete() {
     // Handle delete logic here
-    if (session?.user.id !== user_id) {
+    if (isUser) {
       alert("You are not authorized to delete this post.");
       return;
     }
@@ -33,22 +36,45 @@ function PostContent({ postId, title, content, user_id, username }) {
       <p className="mb-6 text-gray-800">{content}</p>
 
       <OptionsMenu isOpen={isOpenMenu} setIsOpen={setIsOpenMenu}>
-        <li
-          onClick={() => {
-            setIsOpenMenu(false);
-            setIsOpenModal(true);
-          }}
-        >
-          Edit
-        </li>
-        <li
-          onClick={() => {
-            setIsOpenMenu(false);
-            handleDelete();
-          }}
-        >
-          Delete
-        </li>
+        {isUser ? (
+          <>
+            <li
+              onClick={() => {
+                setIsOpenMenu(false);
+                setIsOpenModal(true);
+              }}
+            >
+              Edit
+            </li>
+            <li
+              onClick={() => {
+                setIsOpenMenu(false);
+                handleDelete();
+              }}
+            >
+              Delete
+            </li>
+          </>
+        ) : (
+          <>
+            <li
+              onClick={() => {
+                setIsOpenMenu(false);
+                setIsOpenModal(true);
+              }}
+            >
+              Bookmark
+            </li>
+            <li
+              onClick={() => {
+                setIsOpenMenu(false);
+                handleDelete();
+              }}
+            >
+              Not interested
+            </li>
+          </>
+        )}
       </OptionsMenu>
 
       {/* Modal for editing the post content can be implemented here */}
