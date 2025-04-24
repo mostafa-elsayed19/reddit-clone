@@ -77,7 +77,7 @@ function PostContent({ postId, title, content, user_id, username }) {
         )}
       </OptionsMenu>
 
-      {/* Modal for editing the post content can be implemented here */}
+      {/* Modal for editing the post content */}
       {isOpenModal && (
         <div className="fixed inset-0 z-10 flex items-center justify-center">
           <div className="fixed inset-0 -z-50 flex items-center justify-center bg-black opacity-50"></div>

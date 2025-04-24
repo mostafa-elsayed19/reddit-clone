@@ -50,7 +50,7 @@ export async function getPostById(id) {
 export async function updatePost(id, editedPost) {
   const { data: updatedPost, error } = await supabase
     .from("posts")
-    .update(editedPost)
+    .update({ ...editedPost, updated_at: new Date(), edited: true })
     .eq("id", id);
 
   if (error) {

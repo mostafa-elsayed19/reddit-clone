@@ -31,10 +31,13 @@ async function page({ params }) {
     user_id,
     title,
     content,
-    likes,
+    upvotes,
+    downvotes,
     comments_count,
     users: { username },
   } = post;
+
+  const votes = upvotes - downvotes;
 
   return (
     <Wrapper>
@@ -47,7 +50,7 @@ async function page({ params }) {
           username={username}
         />
 
-        <VoteSection likes={likes} />
+        <VoteSection votes={votes} />
 
         <h2 className="mb-4 text-xl font-semibold">
           {comments_count} Comments
