@@ -1,4 +1,5 @@
 import { supabase } from "@/_lib/supabase";
+import { getVotesCountForPost } from "./votes";
 
 export async function createPost(newPost) {
   const { error } = await supabase
@@ -29,7 +30,14 @@ export async function getAllPosts() {
     return null;
   }
 
-  return { posts };
+  const postsWithVotes = await Promise.all(
+    posts.map(async (post) => {
+      const votes = await getVotesCountForPost(post.id);
+      return { ...post, ...votes };
+    }),
+  );
+
+  return { posts: postsWithVotes };
 }
 
 export async function getPostById(id) {
@@ -39,12 +47,16 @@ export async function getPostById(id) {
     .eq("id", id)
     .single();
 
+  const postVotes = await getVotesCountForPost(post.id);
+
+  const postWithVotes = { ...post, ...postVotes };
+
   if (error) {
     console.error("Error fetching post:", error);
     return null;
   }
 
-  return { post };
+  return { post: postWithVotes };
 }
 
 export async function updatePost(id, editedPost) {

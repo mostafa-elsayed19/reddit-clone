@@ -27,6 +27,8 @@ async function page({ params }) {
   //     }
   // }
 
+  console.log(post);
+
   const {
     user_id,
     title,
@@ -50,7 +52,7 @@ async function page({ params }) {
           username={username}
         />
 
-        <VoteSection votes={votes} />
+        <VoteSection votes={votes} postId={postId} />
 
         <h2 className="mb-4 text-xl font-semibold">
           {comments_count} Comments
