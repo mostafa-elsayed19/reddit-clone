@@ -1,24 +1,24 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
+
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import User from "./User";
 import Wrapper from "./Wrapper";
 
 function Navbar() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  const { data: session } = useSession();
+  // const router = useRouter();
 
   const pathname = usePathname();
   const hideNavbar = pathname === "/login" || pathname === "/register";
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/");
-    }
-  }, [status]);
+  // useEffect(() => {
+  //   if (status === "unauthenticated") {
+  //     router.push("/");
+  //   }
+  // }, [status]);
 
   if (hideNavbar) {
     return null;
