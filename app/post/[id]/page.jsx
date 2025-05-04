@@ -27,8 +27,6 @@ async function page({ params }) {
   //     }
   // }
 
-  console.log(post);
-
   const {
     user_id,
     title,

@@ -23,7 +23,6 @@ export default function RegisterPage() {
   async function handleSubmit(e) {
     e.preventDefault();
     // Handle registration logic here
-    console.log("Form submitted:", formData);
 
     const password_hash = await bcrypt.hash(formData.password, 10);
 
@@ -43,7 +42,7 @@ export default function RegisterPage() {
       console.error("Error inserting data:", error);
       return;
     }
-    console.log("Data inserted successfully:", data);
+
     router.push("/login");
   }
 

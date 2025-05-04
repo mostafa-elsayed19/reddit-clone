@@ -86,3 +86,23 @@ export async function getVotesCountForPost(postId) {
 
   return { upvotes: upvotesCount, downvotes: downvotesCount };
 }
+
+export async function getVoteTypeForPost(postId, userId) {
+  if (!userId || !postId) {
+    return null;
+  }
+
+  const { data: existingVote, error } = await supabase
+    .from("votes")
+    .select("type")
+    .eq("post_id", postId)
+    .eq("user_id", userId)
+    .single();
+
+  if (error) {
+    console.error("Error fetching existing vote:", error);
+    return null;
+  }
+
+  return existingVote ? existingVote.type : null;
+}
