@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import OptionsMenu from "./OptionsMenu";
 import PostForm from "./PostForm";
 
-function PostContent({ postId, title, content, user_id, username }) {
+function PostContent({ postId, title, content, user_id, username, image }) {
   const { data: session } = useSession();
   const isUser = session?.user.id === user_id;
 
@@ -28,12 +28,13 @@ function PostContent({ postId, title, content, user_id, username }) {
     router.push("/");
   }
   return (
-    <div className="relative flex flex-col justify-center gap-4">
+    <div className="relative flex flex-col justify-center space-y-4">
       <h1 className="text-2xl font-bold">{title}</h1>
       <p className="text-sm text-gray-500">
         Posted by {username} • 2 hours ago
       </p>
       <p className="mb-6 text-gray-800">{content}</p>
+      <img src={image} className="rounded-2xl" />
 
       <OptionsMenu isOpen={isOpenMenu} setIsOpen={setIsOpenMenu}>
         {isUser ? (

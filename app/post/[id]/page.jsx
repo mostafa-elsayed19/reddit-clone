@@ -35,6 +35,7 @@ async function page({ params }) {
     downvotes,
     comments_count,
     users: { username },
+    image,
   } = post;
 
   const votes = upvotes - downvotes;
@@ -48,6 +49,7 @@ async function page({ params }) {
           user_id={user_id}
           content={content}
           username={username}
+          image={image}
         />
 
         <VoteSection votes={votes} postId={postId} />

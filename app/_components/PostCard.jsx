@@ -33,6 +33,10 @@ function PostCard({ post }) {
           View Comments ({post.comments_count})
         </Link>
       </div>
+
+      {post.image && (
+        <img src={post.image} className="h-24 w-24 rounded-2xl object-cover" />
+      )}
     </article>
   );
 }

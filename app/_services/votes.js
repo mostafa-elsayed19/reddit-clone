@@ -79,11 +79,6 @@ export async function getVotesCountForPost(postId) {
 
   const downvotesCount = downvotes || 0;
 
-  console.log("Votes count:", {
-    upvotes: upvotesCount,
-    downvotes: downvotesCount,
-  });
-
   return { upvotes: upvotesCount, downvotes: downvotesCount };
 }
 
@@ -100,7 +95,7 @@ export async function getVoteTypeForPost(postId, userId) {
     .single();
 
   if (error) {
-    console.error("Error fetching existing vote:", error);
+    console.warn("Error fetching existing vote:", error);
     return null;
   }
 
