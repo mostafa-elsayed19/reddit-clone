@@ -89,6 +89,7 @@ function PostContent({ postId, title, content, user_id, username, image }) {
               postId={postId}
               title={title}
               content={content}
+              image={image}
               closeModal={() => setIsOpenModal(false)}
             />
           </div>

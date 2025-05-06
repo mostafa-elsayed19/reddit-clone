@@ -1,18 +1,25 @@
-export async function uploadImageToImgBB(imageFile) {
-  const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
-  const formData = new FormData();
-  formData.append("image", imageFile);
+export async function uploadImageToCloudinary(imageFile) {
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
-  const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
-    method: "POST",
-    body: formData,
-  });
+  const formData = new FormData();
+
+  formData.append("upload_preset", uploadPreset);
+  formData.append("file", imageFile);
+
+  const response = await fetch(
+    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+    {
+      method: "POST",
+      body: formData,
+    },
+  );
 
   if (!response.ok) {
-    throw new Error("Failed to upload image to ImgBB", response.statusText);
+    throw new Error("Failed to upload image to Cloudinary", response);
   }
 
   const data = await response.json();
-  console.log("ImgBB response:", data);
-  return data.data.url;
+  console.log("Cloudinary response:", data);
+  return data.url;
 }

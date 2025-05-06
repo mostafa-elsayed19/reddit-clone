@@ -8,9 +8,9 @@ import { useSession } from "next-auth/react";
 import { createPost, updatePost } from "@/_services/posts";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { uploadImageToImgBB } from "@/_services/helpers";
+import { uploadImageToCloudinary } from "@/_services/helpers";
 
-function PostForm({ edit, postId, title, content, closeModal }) {
+function PostForm({ edit, postId, title, content, closeModal, image }) {
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -20,7 +20,7 @@ function PostForm({ edit, postId, title, content, closeModal }) {
     image: null,
   });
 
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreview, setImagePreview] = useState(image || null);
 
   function handleAddImage(e) {
     const file = e.target.files[0];
@@ -64,7 +64,7 @@ function PostForm({ edit, postId, title, content, closeModal }) {
 
     let imageUrl = null;
     if (formData.image) {
-      imageUrl = await uploadImageToImgBB(formData.image);
+      imageUrl = await uploadImageToCloudinary(formData.image);
       if (!imageUrl) {
         console.error("Failed to upload image");
         return;
