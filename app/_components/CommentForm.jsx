@@ -4,17 +4,24 @@ import { useState } from "react";
 import Button from "./Button";
 import InputField from "./InputField";
 import { useSession } from "next-auth/react";
-import { addComment } from "@/_services/comments";
+import { addComment, editComment } from "@/_services/comments";
 import { useRouter } from "next/navigation";
 import useAuthCheck from "@/Hooks/useAuthCheck";
 
-function CommentForm({ postId }) {
+function CommentForm({
+  postId,
+  edit = false,
+  content,
+  commentId,
+  editUserId,
+  setIsEdit,
+}) {
   const { checkAuth } = useAuthCheck();
   const router = useRouter();
   const { data: session } = useSession();
   const userId = session?.user?.id;
   const [formData, setFormData] = useState({
-    content: "",
+    content: content || "",
   });
 
   function handleChange(e) {
@@ -30,10 +37,6 @@ function CommentForm({ postId }) {
 
     if (!checkAuth()) return;
 
-    if (!userId) {
-      console.error("User is not logged in.");
-      return;
-    }
     if (!formData.content) {
       console.error("Comment content is required.");
       return;
@@ -45,10 +48,19 @@ function CommentForm({ postId }) {
       post_id: postId,
     };
 
-    await addComment(newComment);
+    if (!edit) {
+      await addComment(newComment);
+    } else {
+      if (userId !== editUserId) {
+        console.error("You are not authorized to edit this comment.");
+        return;
+      }
+
+      await editComment(commentId, newComment);
+      setIsEdit();
+    }
 
     setFormData({ content: "" }); // Reset the form after submission
-
     router.refresh();
   }
   return (
@@ -59,8 +71,17 @@ function CommentForm({ postId }) {
         rows={2}
         placeholder="Add your comment..."
         onChange={handleChange}
+        value={formData.content}
       />
-      <Button type="submit">Submit</Button>
+      {!edit && <Button type="submit">Submit</Button>}
+      {edit && (
+        <div className="space-x-2">
+          <Button type="submit" buttonType="submit">
+            Save
+          </Button>
+          <Button onClick={setIsEdit}>Cancel</Button>
+        </div>
+      )}
     </form>
   );
 }

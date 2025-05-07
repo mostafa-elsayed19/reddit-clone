@@ -24,10 +24,10 @@ export async function addComment(newComment) {
   }
 }
 
-export async function editComment(commentId, content) {
+export async function editComment(commentId, newComment) {
   const { error } = await supabase
     .from("comments")
-    .update({ content, edited: true })
+    .update({ ...newComment, edited: true })
     .eq("id", commentId);
 
   if (error) {
