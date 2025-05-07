@@ -60,6 +60,12 @@ function PostForm({ edit, postId, title, content, closeModal, image }) {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    if (!session) {
+      window.alert("Please log in to create a post.");
+      window.location.href = "/login";
+      return;
+    }
+
     // Handle form submission logic here
 
     let imageUrl = null;
@@ -87,6 +93,8 @@ function PostForm({ edit, postId, title, content, closeModal, image }) {
       await createPost(newPost);
     }
     setFormData({ title: "", content: "" });
+    setImagePreview(null);
+    router.push("/");
   }
 
   return (

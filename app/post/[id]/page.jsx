@@ -1,5 +1,5 @@
-import CommentList from "@/_components/CommentList";
-import InputField from "@/_components/InputField";
+import CommentForm from "@/_components/CommentForm";
+import CommentsList from "@/_components/CommentsList";
 import PostContent from "@/_components/PostContent";
 import VoteSection from "@/_components/VoteSection";
 import Wrapper from "@/_components/Wrapper";
@@ -10,30 +10,14 @@ async function page({ params }) {
 
   const { post } = await getPostById(postId);
 
-  //   {
-  //     "id": "64256c7f-09c1-4615-b751-99448bbcd45e",
-  //     "created_at": "2025-04-14T14:54:44.107688+00:00",
-  //     "user_id": "cf389b5d-cb97-4d1d-b275-0a76a25cc072",
-  //     "image": "",
-  //     "title": "test 2",
-  //     "content": "test 2",
-  //     "likes": 0,
-  //     "views": 0,
-  //     "comments_count": 0,
-  //     "updated_at": null,
-  //     "edited": false,
-  //     "users": {
-  //         "username": "Mostafa"
-  //     }
-  // }
-
   const {
     user_id,
     title,
     content,
     upvotes,
     downvotes,
-    comments_count,
+    comments,
+
     users: { username },
     image,
   } = post;
@@ -55,21 +39,11 @@ async function page({ params }) {
         <VoteSection votes={votes} postId={postId} />
 
         <h2 className="mb-4 text-xl font-semibold">
-          {comments_count} Comments
+          {comments.length} Comments
         </h2>
 
-        <form className="mb-6">
-          <InputField
-            type="textarea"
-            rows={2}
-            placeholder="Add your comment..."
-          />
-          <button className="mt-2 rounded bg-blue-500 px-4 py-2 text-white">
-            Submit
-          </button>
-        </form>
-
-        <CommentList />
+        <CommentForm postId={postId} />
+        <CommentsList comments={comments} />
       </section>
     </Wrapper>
   );

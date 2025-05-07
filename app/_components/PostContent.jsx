@@ -19,7 +19,7 @@ function PostContent({ postId, title, content, user_id, username, image }) {
 
   async function handleDelete() {
     // Handle delete logic here
-    if (isUser) {
+    if (!isUser) {
       alert("You are not authorized to delete this post.");
       return;
     }

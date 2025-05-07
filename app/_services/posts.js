@@ -22,7 +22,8 @@ export async function createPost(newPost) {
 export async function getAllPosts() {
   const { data: posts, error } = await supabase
     .from("posts")
-    .select("*, users(username)")
+    // .select("*,votes(*), comments(*), users(username)")
+    .select("*, comments(*), users(username)")
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -38,12 +39,14 @@ export async function getAllPosts() {
   );
 
   return { posts: postsWithVotes };
+  // return { posts };
 }
 
 export async function getPostById(id) {
   const { data: post, error } = await supabase
     .from("posts")
-    .select("*, users(username)")
+    .select("*, users(username), comments(*, users(username))")
+    .order("created_at", { ascending: false })
     .eq("id", id)
     .single();
 

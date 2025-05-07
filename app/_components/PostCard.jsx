@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 function PostCard({ post }) {
   const votes = post.upvotes - post.downvotes;
   const router = useRouter();
+  console.log("PostCard post", post);
   return (
     <article
       key={post.id}
@@ -30,7 +31,7 @@ function PostCard({ post }) {
           href={`/post/${post.id}`}
           className="mt-2 inline-block text-sm text-blue-600 hover:underline"
         >
-          View Comments ({post.comments_count})
+          View Comments ({post.comments.length})
         </Link>
       </div>
 
