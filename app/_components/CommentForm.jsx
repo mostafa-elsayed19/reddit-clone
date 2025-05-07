@@ -6,8 +6,10 @@ import InputField from "./InputField";
 import { useSession } from "next-auth/react";
 import { addComment } from "@/_services/comments";
 import { useRouter } from "next/navigation";
+import useAuthCheck from "@/Hooks/useAuthCheck";
 
 function CommentForm({ postId }) {
+  const { checkAuth } = useAuthCheck();
   const router = useRouter();
   const { data: session } = useSession();
   const userId = session?.user?.id;
@@ -25,6 +27,8 @@ function CommentForm({ postId }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
+
+    if (!checkAuth()) return;
 
     if (!userId) {
       console.error("User is not logged in.");

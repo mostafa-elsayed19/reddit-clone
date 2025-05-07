@@ -1,11 +1,13 @@
 "use client";
 import { getVoteTypeForPost, updateVoteForPost } from "@/_services/votes";
+import useAuthCheck from "@/Hooks/useAuthCheck";
 import { ArrowBigDown, ArrowBigUp } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 function VoteSection({ flex_direction = "flex-row", votes, postId }) {
+  const { checkAuth } = useAuthCheck();
   const router = useRouter();
   const { data: session } = useSession();
   const userId = session?.user.id;
@@ -23,6 +25,8 @@ function VoteSection({ flex_direction = "flex-row", votes, postId }) {
   }, [postId, userId]);
 
   async function handleVote(type) {
+    if (!checkAuth()) return;
+
     await updateVoteForPost(postId, userId, type);
     if (userVoteType === type) {
       setUserVoteType("");

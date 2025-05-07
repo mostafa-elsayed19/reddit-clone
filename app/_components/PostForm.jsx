@@ -9,8 +9,10 @@ import { createPost, updatePost } from "@/_services/posts";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { uploadImageToCloudinary } from "@/_services/helpers";
+import useAuthCheck from "@/Hooks/useAuthCheck";
 
 function PostForm({ edit, postId, title, content, closeModal, image }) {
+  const { checkAuth } = useAuthCheck();
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -60,11 +62,7 @@ function PostForm({ edit, postId, title, content, closeModal, image }) {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (!session) {
-      window.alert("Please log in to create a post.");
-      window.location.href = "/login";
-      return;
-    }
+    if (!checkAuth()) return;
 
     // Handle form submission logic here
 
