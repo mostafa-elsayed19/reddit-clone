@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { SquarePen, Trash2 } from "lucide-react";
 import { useState } from "react";
 import CommentForm from "./CommentForm";
+import VoteSection from "./VoteSection";
 
 function Comment({ comment }) {
   const [isEdit, setIsEdit] = useState(false);
@@ -17,9 +18,14 @@ function Comment({ comment }) {
     post_id,
     content,
     users: { username },
+    upvotes,
+    downvotes,
   } = comment;
+
+  console.log(comment);
   const userId = session?.user?.id;
   const isAuthor = userId === user_id;
+  const votes = upvotes - downvotes;
 
   async function handleDelete() {
     // Logic to delete the comment
@@ -34,6 +40,12 @@ function Comment({ comment }) {
   }
   return (
     <li className="flex justify-between gap-4 rounded border bg-gray-50 p-3">
+      <VoteSection
+        flex_direction="flex-col"
+        votes={votes}
+        votableType={"comment"}
+        votableId={commentId}
+      />
       <section className="flex-1">
         <p className="text-sm text-gray-600">By {username}</p>
         {isEdit ? (

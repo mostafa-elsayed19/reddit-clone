@@ -28,11 +28,13 @@ function PostContent({ postId, title, content, user_id, username, image }) {
     router.push("/");
   }
   return (
-    <div className="relative flex flex-col justify-center space-y-4">
-      <h1 className="text-2xl font-bold">{title}</h1>
-      <p className="text-sm text-gray-500">
-        Posted by {username} • 2 hours ago
-      </p>
+    <div className="relative flex flex-col justify-center space-y-3">
+      <section>
+        <h1 className="text-2xl font-bold">{title}</h1>
+        <p className="text-sm text-gray-500">
+          Posted by {username} • 2 hours ago
+        </p>
+      </section>
       <p className="mb-6 text-gray-800">{content}</p>
       <img src={image} className="rounded-2xl" />
 

@@ -1,7 +1,9 @@
 import { supabase } from "@/_lib/supabase";
 
-export async function updateVoteForPost(postId, userId, type) {
-  if ((!postId, !userId, !["up", "down"].includes(type))) {
+export async function updateVote(newVote) {
+  const { type, user_id, votable_id, votable_type } = newVote;
+
+  if (!votable_id || !user_id || !["up", "down"].includes(type)) {
     console.warn("Missing userId, postId, or invalid vote type");
     return;
   }
@@ -9,8 +11,8 @@ export async function updateVoteForPost(postId, userId, type) {
   const { data: existingVote, error: fetchError } = await supabase
     .from("votes")
     .select("*")
-    .eq("post_id", postId)
-    .eq("user_id", userId)
+    .eq("votable_id", votable_id)
+    .eq("user_id", user_id)
     .single();
 
   // Error getting the existing vote
@@ -21,7 +23,7 @@ export async function updateVoteForPost(postId, userId, type) {
 
   if (existingVote && existingVote.type === type) {
     // If the vote already exists and is the same type, remove it
-    return await removeVoteForPost(postId, userId);
+    return await removeVote(votable_id, user_id);
   }
 
   if (existingVote && existingVote.type !== type) {
@@ -38,15 +40,15 @@ export async function updateVoteForPost(postId, userId, type) {
 
   const { error: insertError } = await supabase
     .from("votes")
-    .insert([{ post_id: postId, user_id: userId, type }]);
+    .insert([{ user_id, votable_id, votable_type, type }]);
 
   if (insertError) {
     console.error("Error inserting vote:", insertError);
   }
 }
 
-export async function removeVoteForPost(postId, userId) {
-  if (!userId || !postId) {
+async function removeVote(votableId, userId) {
+  if (!userId || !votableId) {
     console.warn("Missing userId or postId");
     return false;
   }
@@ -54,7 +56,7 @@ export async function removeVoteForPost(postId, userId) {
   const { error } = await supabase
     .from("votes")
     .delete()
-    .eq("post_id", postId)
+    .eq("votable_id", votableId)
     .eq("user_id", userId);
 
   if (error) {
@@ -62,11 +64,11 @@ export async function removeVoteForPost(postId, userId) {
   }
 }
 
-export async function getVotesCountForPost(postId) {
+export async function getVotesCount(votableId) {
   const { count: upvotes } = await supabase
     .from("votes")
     .select("", { count: "exact" })
-    .eq("post_id", postId)
+    .eq("votable_id", votableId)
     .eq("type", "up");
 
   const upvotesCount = upvotes || 0;
@@ -74,7 +76,7 @@ export async function getVotesCountForPost(postId) {
   const { count: downvotes } = await supabase
     .from("votes")
     .select("", { count: "exact" })
-    .eq("post_id", postId)
+    .eq("votable_id", votableId)
     .eq("type", "down");
 
   const downvotesCount = downvotes || 0;
@@ -82,15 +84,15 @@ export async function getVotesCountForPost(postId) {
   return { upvotes: upvotesCount, downvotes: downvotesCount };
 }
 
-export async function getVoteTypeForPost(postId, userId) {
-  if (!userId || !postId) {
+export async function getVoteType(votableId, userId) {
+  if (!userId || !votableId) {
     return null;
   }
 
   const { data: existingVote, error } = await supabase
     .from("votes")
     .select("type")
-    .eq("post_id", postId)
+    .eq("votable_id", votableId)
     .eq("user_id", userId)
     .single();
 

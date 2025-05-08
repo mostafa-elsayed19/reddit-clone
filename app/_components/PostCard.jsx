@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 function PostCard({ post }) {
   const votes = post.upvotes - post.downvotes;
   const router = useRouter();
-  console.log("PostCard post", post);
+
   return (
     <article
       key={post.id}
@@ -15,7 +15,12 @@ function PostCard({ post }) {
         router.push(`/post/${post.id}`);
       }}
     >
-      <VoteSection flex_direction="flex-col" votes={votes} postId={post.id} />
+      <VoteSection
+        flex_direction="flex-col"
+        votes={votes}
+        votableId={post.id}
+        votableType="post"
+      />
 
       <div className="flex-1">
         <h3 className="text-lg font-semibold">{post.title}</h3>

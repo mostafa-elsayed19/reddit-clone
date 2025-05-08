@@ -17,7 +17,6 @@ async function page({ params }) {
     upvotes,
     downvotes,
     comments,
-
     users: { username },
     image,
   } = post;
@@ -26,7 +25,7 @@ async function page({ params }) {
 
   return (
     <Wrapper>
-      <section className="rounded bg-white p-4 shadow">
+      <section className="space-y-4 rounded bg-white p-4 shadow">
         <PostContent
           postId={postId}
           title={title}
@@ -36,11 +35,9 @@ async function page({ params }) {
           image={image}
         />
 
-        <VoteSection votes={votes} postId={postId} />
+        <VoteSection votes={votes} votableId={postId} votableType="post" />
 
-        <h2 className="mb-4 text-xl font-semibold">
-          {comments.length} Comments
-        </h2>
+        <h2 className="text-xl font-semibold">{comments.length} Comments</h2>
 
         <CommentForm postId={postId} />
         <CommentsList comments={comments} />
