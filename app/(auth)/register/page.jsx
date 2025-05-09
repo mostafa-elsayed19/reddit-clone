@@ -30,9 +30,10 @@ export default function RegisterPage() {
       .from("users")
       .insert([
         {
-          username: formData.username,
-          email: formData.email,
+          username: formData.username.toLowerCase(),
+          email: formData.email.toLowerCase(),
           password_hash,
+          avatar: `https://avatar.iran.liara.run/username?username=${formData.username.replace(" ", "+")}`,
           provider: "credentials",
         },
       ])

@@ -7,8 +7,18 @@ import { useRouter } from "next/navigation";
 
 import OptionsMenu from "./OptionsMenu";
 import PostForm from "./PostForm";
+import { formatDate } from "@/_services/helpers";
 
-function PostContent({ postId, title, content, user_id, username, image }) {
+function PostContent({
+  postId,
+  title,
+  content,
+  user_id,
+  username,
+  image,
+  created_at,
+  updated_at,
+}) {
   const { data: session } = useSession();
   const isUser = session?.user.id === user_id;
 
@@ -29,12 +39,20 @@ function PostContent({ postId, title, content, user_id, username, image }) {
   }
   return (
     <div className="relative flex flex-col justify-center space-y-3">
-      <section>
-        <h1 className="text-2xl font-bold">{title}</h1>
-        <p className="text-sm text-gray-500">
-          Posted by {username} • 2 hours ago
-        </p>
+      <section className="flex items-center gap-2">
+        <img
+          src="https://placehold.co/400"
+          className="h-8 w-8 self-start rounded-full object-cover"
+        />
+        <div>
+          <p className="mb-1 flex items-center gap-2 text-xs text-gray-500">
+            {"r/subreddit"} • {formatDate(created_at)}
+          </p>
+          <p className="text-xs text-gray-500">{username}</p>
+        </div>
       </section>
+
+      <h1 className="text-2xl font-bold">{title}</h1>
       <p className="mb-6 text-gray-800">{content}</p>
       <img src={image} className="rounded-2xl" />
 

@@ -6,6 +6,8 @@ import VoteSection from "./VoteSection";
 import { MessageCircle } from "lucide-react";
 import CommentButton from "./CommentButton";
 import ShareButton from "./ShareButton";
+import { format } from "prettier";
+import { formatDate } from "@/_services/helpers";
 
 function PostCard({ post }) {
   const votes = post.upvotes - post.downvotes;
@@ -22,15 +24,19 @@ function PostCard({ post }) {
       <div className="flex flex-col gap-4">
         <section className="flex justify-between gap-4">
           <div>
-            <h3 className="text-lg font-semibold">{post.title}</h3>
-            <p className="mb-1 text-sm text-gray-500">
-              Posted by {post.users.username} • 2 hours ago
+            <p className="mb-1 flex items-center gap-2 text-xs text-gray-500">
+              <img
+                src="https://placehold.co/400"
+                className="h-6 w-6 rounded-full object-cover"
+              />
+              {"r/subreddit"} • {formatDate(post.created_at)}
             </p>
-            <p className="text-sm text-gray-700">
+            <h3 className="text-lg font-semibold">{post.title}</h3>
+            {/* <p className="text-sm text-gray-700">
               {post.content.length > 100
                 ? `${post.content.slice(0, 100)}...`
                 : post.content}
-            </p>
+            </p> */}
           </div>
           {post.image && (
             <img

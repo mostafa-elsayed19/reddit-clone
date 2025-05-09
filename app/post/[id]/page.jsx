@@ -5,6 +5,9 @@ import CommentsList from "@/_components/CommentsList";
 import PostContent from "@/_components/PostContent";
 import VoteSection from "@/_components/VoteSection";
 import Wrapper from "@/_components/Wrapper";
+import { Share } from "lucide-react";
+import ShareButton from "@/_components/ShareButton";
+import CommentButton from "@/_components/CommentButton";
 
 async function page({ params }) {
   const { id: postId } = await params;
@@ -19,6 +22,8 @@ async function page({ params }) {
     downvotes,
     comments,
     users: { username },
+    created_at,
+    updated_at,
     image,
   } = post;
 
@@ -33,12 +38,16 @@ async function page({ params }) {
           user_id={user_id}
           content={content}
           username={username}
+          created_at={created_at}
+          updated_at={updated_at}
           image={image}
         />
 
-        <VoteSection votes={votes} votableId={postId} votableType="post" />
-
-        <h2 className="text-xl font-semibold">{comments.length} Comments</h2>
+        <div className="flex items-center gap-2">
+          <VoteSection votes={votes} votableId={postId} votableType="post" />
+          <CommentButton commentsCount={comments.length} />
+          <ShareButton />
+        </div>
 
         <CommentForm postId={postId} />
         <CommentsList comments={comments} />
