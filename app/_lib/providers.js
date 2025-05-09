@@ -1,6 +1,7 @@
+import { supabase } from "./supabase";
+
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { supabase } from "./supabase";
 import bcrypt from "bcryptjs";
 
 export const providers = [

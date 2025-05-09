@@ -1,5 +1,6 @@
 import { providers } from "@/_lib/providers";
 import { supabase } from "@/_lib/supabase";
+
 import NextAuth from "next-auth";
 
 const authConfig = {

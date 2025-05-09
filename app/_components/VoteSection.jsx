@@ -1,23 +1,19 @@
 "use client";
 import { getVoteType, updateVote } from "@/_services/votes";
-import useAuthCheck from "@/Hooks/useAuthCheck";
 import { ArrowBigDown, ArrowBigUp } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-function VoteSection({
-  flex_direction = "flex-row",
-  votes,
-  votableType,
-  votableId,
-}) {
-  const { checkAuth } = useAuthCheck();
-  const router = useRouter();
-  const { data: session } = useSession();
-  const userId = session?.user.id;
+import useAuthCheck from "@/Hooks/useAuthCheck";
 
+function VoteSection({ votes, votableType, votableId }) {
+  const { checkAuth } = useAuthCheck();
+  const { data: session } = useSession();
   const [userVoteType, setUserVoteType] = useState("");
+  const router = useRouter();
+
+  const userId = session?.user.id;
 
   useEffect(() => {
     if (!userId) return;
@@ -52,16 +48,16 @@ function VoteSection({
     <>
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`flex cursor-default items-center gap-2 text-gray-500 ${flex_direction} `}
+        className={`flex w-fit cursor-default items-center gap-2 rounded-full border border-gray-300 text-gray-500`}
       >
         <button
-          className={`cursor-pointer hover:text-blue-500 ${userVoteType === "up" ? "text-blue-500" : "text-gray-500"}`}
+          className={`cursor-pointer rounded-full border border-transparent hover:border-blue-500 hover:text-blue-500 ${userVoteType === "up" ? "text-blue-500" : "text-gray-500"}`}
         >
           <ArrowBigUp onClick={() => handleVote("up")} />
         </button>
         <span>{votes}</span>
         <button
-          className={`cursor-pointer hover:text-gray-700 ${userVoteType === "down" ? "text-gray-700" : "text-gray-500"}`}
+          className={`cursor-pointer rounded-full border border-transparent hover:border-gray-700 hover:text-gray-700 ${userVoteType === "down" ? "text-gray-700" : "text-gray-500"}`}
         >
           <ArrowBigDown onClick={() => handleVote("down")} />
         </button>

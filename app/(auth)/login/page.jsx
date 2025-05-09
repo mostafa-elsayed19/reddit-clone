@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { signIn } from "next-auth/react";
+
 import InputField from "@/_components/InputField";
 import Button from "@/_components/Button";
-import { signIn } from "next-auth/react";
-import bcrypt from "bcryptjs";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({

@@ -1,9 +1,10 @@
+import { getPostById } from "@/_services/posts";
+
 import CommentForm from "@/_components/CommentForm";
 import CommentsList from "@/_components/CommentsList";
 import PostContent from "@/_components/PostContent";
 import VoteSection from "@/_components/VoteSection";
 import Wrapper from "@/_components/Wrapper";
-import { getPostById } from "@/_services/posts";
 
 async function page({ params }) {
   const { id: postId } = await params;

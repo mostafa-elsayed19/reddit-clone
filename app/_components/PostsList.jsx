@@ -1,4 +1,5 @@
 import { getAllPosts } from "@/_services/posts";
+
 import PostCard from "./PostCard";
 
 async function PostsList() {
