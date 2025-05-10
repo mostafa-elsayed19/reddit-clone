@@ -14,34 +14,14 @@ async function page({ params }) {
 
   const { post } = await getPostById(postId);
 
-  const {
-    user_id,
-    title,
-    content,
-    upvotes,
-    downvotes,
-    comments,
-    users: { username },
-    created_at,
-    updated_at,
-    image,
-  } = post;
+  const { upvotes, downvotes, comments } = post;
 
   const votes = upvotes - downvotes;
 
   return (
     <Wrapper>
       <section className="space-y-4 rounded bg-white p-4 shadow">
-        <PostContent
-          postId={postId}
-          title={title}
-          user_id={user_id}
-          content={content}
-          username={username}
-          created_at={created_at}
-          updated_at={updated_at}
-          image={image}
-        />
+        <PostContent post={post} />
 
         <div className="flex items-center gap-2">
           <VoteSection votes={votes} votableId={postId} votableType="post" />

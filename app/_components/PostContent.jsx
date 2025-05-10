@@ -9,16 +9,17 @@ import OptionsMenu from "./OptionsMenu";
 import PostForm from "./PostForm";
 import { formatDate } from "@/_services/helpers";
 
-function PostContent({
-  postId,
-  title,
-  content,
-  user_id,
-  username,
-  image,
-  created_at,
-  updated_at,
-}) {
+function PostContent({ post }) {
+  const {
+    user_id,
+    title,
+    content,
+    users: { username },
+    created_at,
+    updated_at,
+    image,
+    edited,
+  } = post;
   const { data: session } = useSession();
   const isUser = session?.user.id === user_id;
 
@@ -45,10 +46,14 @@ function PostContent({
           className="h-8 w-8 self-start rounded-full object-cover"
         />
         <div>
-          <p className="mb-1 flex items-center gap-2 text-xs text-gray-500">
-            {"r/subreddit"} • {formatDate(created_at)}
+          <p className="text-sm text-gray-800">
+            {"r/subreddit"}{" "}
+            <span className="text-xs text-gray-500">
+              • {formatDate(created_at)}{" "}
+              {edited && `• Edited ${formatDate(updated_at)}`}
+            </span>
           </p>
-          <p className="text-xs text-gray-500">{username}</p>
+          <p className="text-sm text-gray-700">{username}</p>
         </div>
       </section>
 

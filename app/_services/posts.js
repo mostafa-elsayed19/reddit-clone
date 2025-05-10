@@ -45,7 +45,7 @@ export async function getAllPosts() {
 export async function getPostById(id) {
   const { data: post, error } = await supabase
     .from("posts")
-    .select("*, users(username), comments(*, users(username))")
+    .select("*, users(username), comments(*, users(username, avatar))")
     .order("created_at", { ascending: false })
     .eq("id", id)
     .single();

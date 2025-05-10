@@ -13,7 +13,7 @@ export async function addComment(newComment) {
 export async function editComment(commentId, newComment) {
   const { error } = await supabase
     .from("comments")
-    .update({ ...newComment, edited: true })
+    .update({ ...newComment, edited: true, updated_at: new Date() })
     .eq("id", commentId);
 
   if (error) {
