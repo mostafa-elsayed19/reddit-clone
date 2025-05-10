@@ -59,7 +59,23 @@ export async function getPostById(id) {
     }),
   );
 
-  const postWithVotes = { ...post, ...postVotes, comments: commentVotes };
+  // Recursively build the comment tree
+  function commentTree(comments, parentId = null) {
+    return comments
+      .filter((comment) => comment.parent_id === parentId)
+      .map((comment) => ({
+        ...comment,
+        replies: commentTree(comments, comment.id),
+      }));
+  }
+
+  const commentsWithReplies = commentTree(commentVotes);
+
+  const postWithVotes = {
+    ...post,
+    ...postVotes,
+    comments: commentsWithReplies,
+  };
 
   if (error) {
     console.error("Error fetching post:", error);

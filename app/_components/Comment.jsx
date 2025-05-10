@@ -4,16 +4,19 @@ import { deleteComment } from "@/_services/comments";
 import { useRouter } from "next/navigation";
 import { SquarePen, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { formatDate } from "@/_services/helpers";
 
 import Button from "./Button";
 import CommentForm from "./CommentForm";
 import VoteSection from "./VoteSection";
 import CommentButton from "./CommentButton";
 import ShareButton from "./ShareButton";
-import { formatDate } from "@/_services/helpers";
+import CommentReply from "./CommentReply";
 
 function Comment({ comment }) {
+  console.log(comment);
   const [isEdit, setIsEdit] = useState(false);
+  const [isReply, setIsReply] = useState(false);
   const { data: session } = useSession();
   const router = useRouter();
   const {
@@ -27,13 +30,14 @@ function Comment({ comment }) {
     created_at,
     updated_at,
     edited,
+    replies,
   } = comment;
 
   const userId = session?.user?.id;
   const isAuthor = userId === user_id;
   const votes = upvotes - downvotes;
 
-  async function handleDelete() {
+  async function handleDelete(id) {
     // Logic to delete the comment
     if (!isAuthor) {
       console.error("You are not authorized to delete this comment.");
@@ -41,7 +45,7 @@ function Comment({ comment }) {
     }
 
     // Call the deleteComment function from your service
-    await deleteComment(commentId);
+    await deleteComment(id);
     router.refresh(); // Refresh the page to reflect the changes
   }
   return (
@@ -56,8 +60,8 @@ function Comment({ comment }) {
           <p className="text-sm text-gray-600">
             {username}{" "}
             <span className="text-xs text-gray-400">
-              • {formatDate(created_at)} •{" "}
-              {edited && `Edited ${formatDate(updated_at)}`}
+              • {formatDate(created_at)}{" "}
+              {edited && `• Edited ${formatDate(updated_at)}`}
             </span>
           </p>
         </div>
@@ -69,7 +73,7 @@ function Comment({ comment }) {
               commentId={commentId}
               postId={post_id}
               editUserId={user_id}
-              setIsEdit={() => setIsEdit(false)}
+              setStatus={() => setIsEdit(false)}
             />
           ) : (
             <p>{content}</p>
@@ -82,49 +86,38 @@ function Comment({ comment }) {
               votableType={"comment"}
               votableId={commentId}
             />
-            <CommentButton commentsCount={0} />
+            <CommentButton
+              commentsCount={0}
+              reply={true}
+              onClick={() => setIsReply(true)}
+            />
             <ShareButton />
           </div>
 
+          {isReply && (
+            <CommentForm
+              edit={false}
+              reply={true}
+              postId={post_id}
+              parentId={commentId}
+              setStatus={() => setIsReply(!isReply)}
+            />
+          )}
+
           {/* Replies */}
-          <div className="relative flex justify-between p-2">
-            <div className="absolute -top-2 -left-2 flex items-center gap-2">
-              <img
-                src={avatar}
-                alt="user profile"
-                className="h-8 w-8 rounded-full object-cover"
-              />
-              <p className="text-sm text-gray-600">
-                {username}{" "}
-                <span className="text-xs text-gray-400">
-                  • {formatDate(created_at)}
-                </span>
-              </p>
-            </div>
-            <div className="space-y-2 pt-6 pl-4">
-              <p className="">{content}</p>
-              <div className="flex items-center gap-2">
-                <VoteSection
-                  flex_direction="flex-col"
-                  votes={votes}
-                  votableType={"comment"}
-                  votableId={commentId}
+          {replies && replies.length > 0 && (
+            <>
+              {replies.map((reply) => (
+                <CommentReply
+                  key={reply.id}
+                  reply={reply}
+                  handleDelete={handleDelete}
+                  setIsEdit={setIsEdit}
+                  isEdit={isEdit}
                 />
-                <CommentButton commentsCount={0} />
-                <ShareButton />
-              </div>
-            </div>
-            {isAuthor && (
-              <section className="space-x-2">
-                <Button buttonType="edit" onClick={() => setIsEdit(!isEdit)}>
-                  <SquarePen size={18} />
-                </Button>
-                <Button buttonType="delete" onClick={handleDelete}>
-                  <Trash2 size={18} />
-                </Button>
-              </section>
-            )}
-          </div>
+              ))}
+            </>
+          )}
         </div>
 
         {isAuthor && (
@@ -132,7 +125,7 @@ function Comment({ comment }) {
             <Button buttonType="edit" onClick={() => setIsEdit(!isEdit)}>
               <SquarePen size={18} />
             </Button>
-            <Button buttonType="delete" onClick={handleDelete}>
+            <Button buttonType="delete" onClick={() => handleDelete(commentId)}>
               <Trash2 size={18} />
             </Button>
           </section>

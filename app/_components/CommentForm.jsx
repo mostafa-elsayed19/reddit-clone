@@ -12,10 +12,12 @@ import useAuthCheck from "@/Hooks/useAuthCheck";
 function CommentForm({
   postId,
   edit = false,
+  reply = false,
   content,
   commentId,
+  parentId,
   editUserId,
-  setIsEdit,
+  setStatus,
 }) {
   const { checkAuth } = useAuthCheck();
   const router = useRouter();
@@ -49,16 +51,22 @@ function CommentForm({
       post_id: postId,
     };
 
-    if (!edit) {
+    if (!edit && !reply) {
       await addComment(newComment);
-    } else {
+    } else if (edit) {
       if (userId !== editUserId) {
         console.error("You are not authorized to edit this comment.");
         return;
       }
 
       await editComment(commentId, newComment);
-      setIsEdit();
+      setStatus();
+    } else if (reply) {
+      await addComment({
+        ...newComment,
+        parent_id: parentId,
+      });
+      setStatus();
     }
 
     setFormData({ content: "" }); // Reset the form after submission
@@ -74,15 +82,14 @@ function CommentForm({
         onChange={handleChange}
         value={formData.content}
       />
-      {!edit && <Button type="submit">Submit</Button>}
-      {edit && (
-        <div className="space-x-2">
-          <Button type="submit" buttonType="submit">
-            Save
-          </Button>
-          <Button onClick={setIsEdit}>Cancel</Button>
-        </div>
-      )}
+      {/* {!edit && <Button type="submit">Submit</Button>} */}
+
+      <div className="space-x-2">
+        <Button type="submit" buttonType="submit">
+          {!edit || reply ? "Submit" : "Save"}
+        </Button>
+        {(edit || reply) && <Button onClick={setStatus}>Cancel</Button>}
+      </div>
     </form>
   );
 }
