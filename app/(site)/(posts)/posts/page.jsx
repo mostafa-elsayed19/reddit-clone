@@ -1,15 +1,14 @@
-import Wrapper from "@/_components/Wrapper";
 import PostForm from "@/_components/PostForm";
 import PostsList from "@/_components/PostsList";
+import Wrapper from "@/_components/Wrapper";
 
-export default async function Home() {
+function page() {
   return (
     <Wrapper>
-      {/* Post Form */}
       <PostForm />
-
-      {/* Post List */}
       <PostsList />
     </Wrapper>
   );
 }
+
+export default page;

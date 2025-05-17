@@ -11,7 +11,7 @@ import useAuthCheck from "@/Hooks/useAuthCheck";
 import InputField from "./InputField";
 import Button from "./Button";
 
-function PostForm({ edit, postId, title, content, closeModal, image }) {
+function PostForm({ edit, postId, title, content, closeModal, image, slug }) {
   const { checkAuth } = useAuthCheck();
   const { data: session } = useSession();
   const router = useRouter();
@@ -80,6 +80,7 @@ function PostForm({ edit, postId, title, content, closeModal, image }) {
       title: formData.title,
       content: formData.content,
       image: imageUrl,
+      subreddit_slug: slug,
     };
 
     if (edit) {

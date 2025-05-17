@@ -1,6 +1,15 @@
 import { supabase } from "@/_lib/supabase";
 import { getVotesCount } from "./votes";
 
+function postsWithVotes(posts) {
+  return Promise.all(
+    posts.map(async (post) => {
+      const votes = await getVotesCount(post.id);
+      return { ...post, ...votes };
+    }),
+  );
+}
+
 export async function createPost(newPost) {
   const { error } = await supabase
     .from("posts")
@@ -19,6 +28,31 @@ export async function createPost(newPost) {
   console.log("Data inserted successfully:", newPost);
 }
 
+export async function updatePost(id, editedPost) {
+  const { data: updatedPost, error } = await supabase
+    .from("posts")
+    .update({ ...editedPost, updated_at: new Date(), edited: true })
+    .eq("id", id);
+
+  if (error) {
+    console.error("Error updating post:", error);
+    return null;
+  }
+
+  return { updatedPost };
+}
+
+export async function deletePost(id) {
+  const { error } = await supabase.from("posts").delete().eq("id", id);
+
+  if (error) {
+    console.error("Error deleting post:", error);
+    return null;
+  }
+
+  return true;
+}
+
 export async function getAllPosts() {
   const { data: posts, error } = await supabase
     .from("posts")
@@ -31,15 +65,9 @@ export async function getAllPosts() {
     return null;
   }
 
-  const postsWithVotes = await Promise.all(
-    posts.map(async (post) => {
-      const votes = await getVotesCount(post.id);
-      return { ...post, ...votes };
-    }),
-  );
+  const returnedPostsWithVotes = await postsWithVotes(posts);
 
-  return { posts: postsWithVotes };
-  // return { posts };
+  return { posts: returnedPostsWithVotes };
 }
 
 export async function getPostById(id) {
@@ -85,27 +113,36 @@ export async function getPostById(id) {
   return { post: postWithVotes };
 }
 
-export async function updatePost(id, editedPost) {
-  const { data: updatedPost, error } = await supabase
+export async function getPostsBySubredditSlug(slug) {
+  const { data: posts, error } = await supabase
     .from("posts")
-    .update({ ...editedPost, updated_at: new Date(), edited: true })
-    .eq("id", id);
+    .select("*, users(username)")
+    .eq("subreddit_slug", slug)
+    .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Error updating post:", error);
+    console.error("Error fetching posts by subreddit slug:", error);
     return null;
   }
 
-  return { updatedPost };
+  const returnedPostsWithVotes = await postsWithVotes(posts);
+
+  return { posts: returnedPostsWithVotes };
 }
 
-export async function deletePost(id) {
-  const { error } = await supabase.from("posts").delete().eq("id", id);
+export async function getPostsByUserId(id) {
+  const { data: posts, error } = await supabase
+    .from("posts")
+    .select("*, users(username)")
+    .eq("user_id", id)
+    .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Error deleting post:", error);
+    console.error("Error fetching posts by userId:", error);
     return null;
   }
 
-  return true;
+  const returnedPostsWithVotes = await postsWithVotes(posts);
+
+  return { posts: returnedPostsWithVotes };
 }

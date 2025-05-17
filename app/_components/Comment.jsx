@@ -86,11 +86,7 @@ function Comment({ comment }) {
               votableType={"comment"}
               votableId={commentId}
             />
-            <CommentButton
-              commentsCount={0}
-              reply={true}
-              onClick={() => setIsReply(true)}
-            />
+            <CommentButton reply={true} onClick={() => setIsReply(true)} />
             <ShareButton />
           </div>
 

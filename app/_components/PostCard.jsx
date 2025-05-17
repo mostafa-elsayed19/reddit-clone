@@ -1,13 +1,11 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { formatDate } from "@/_services/helpers";
 
 import Link from "next/link";
 import VoteSection from "./VoteSection";
-import { MessageCircle } from "lucide-react";
 import CommentButton from "./CommentButton";
 import ShareButton from "./ShareButton";
-import { format } from "prettier";
-import { formatDate } from "@/_services/helpers";
 
 function PostCard({ post }) {
   const votes = post.upvotes - post.downvotes;
@@ -15,7 +13,7 @@ function PostCard({ post }) {
 
   return (
     <article
-      key={post.id}
+      key={post?.id}
       className="cursor-pointer items-start rounded-2xl bg-white p-4 shadow transition-shadow duration-200 ease-in-out hover:bg-gray-50 hover:shadow-lg"
       onClick={() => {
         router.push(`/post/${post.id}`);
@@ -29,18 +27,18 @@ function PostCard({ post }) {
                 src="https://placehold.co/400"
                 className="h-6 w-6 rounded-full object-cover"
               />
-              {"r/subreddit"} • {formatDate(post.created_at)}
+              {"r/subreddit"} • {formatDate(post?.created_at)}
             </p>
-            <h3 className="text-lg font-semibold">{post.title}</h3>
+            <h3 className="text-lg font-semibold">{post?.title}</h3>
             {/* <p className="text-sm text-gray-700">
               {post.content.length > 100
                 ? `${post.content.slice(0, 100)}...`
                 : post.content}
             </p> */}
           </div>
-          {post.image && (
+          {post?.image && (
             <img
-              src={post.image}
+              src={post?.image}
               className="h-24 w-24 rounded-2xl object-cover"
             />
           )}
@@ -50,12 +48,12 @@ function PostCard({ post }) {
           <VoteSection
             flex_direction="flex-col"
             votes={votes}
-            votableId={post.id}
+            votableId={post?.id}
             votableType="post"
           />
 
           <Link href={`/post/${post.id}`} onClick={(e) => e.stopPropagation()}>
-            <CommentButton commentsCount={post.comments.length} />
+            <CommentButton commentsCount={post?.comments?.length} />
           </Link>
 
           <ShareButton />

@@ -1,6 +1,8 @@
 function Wrapper({ children, className }) {
   return (
-    <main className={`mx-auto max-w-3xl space-y-6 p-4 ${className}`}>
+    <main
+      className={`${className ? className : ""} mx-auto max-w-4xl flex-1 space-y-6 p-4`}
+    >
       {children}
     </main>
   );

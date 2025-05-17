@@ -11,6 +11,7 @@ import { formatDate } from "@/_services/helpers";
 
 function PostContent({ post }) {
   const {
+    id: postId,
     user_id,
     title,
     content,
