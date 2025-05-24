@@ -17,7 +17,7 @@ export default async function Home() {
         </div>
         <Sidebar
           position={"right"}
-          subredditsList={<SubredditsList />}
+          data={<SubredditsList />}
           sidebarWidth={"flex-1"}
           toggleButton={false}
         />

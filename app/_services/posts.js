@@ -146,3 +146,37 @@ export async function getPostsByUserId(id) {
 
   return { posts: returnedPostsWithVotes };
 }
+
+export async function getRandomPosts() {
+  const { data: posts, error } = await supabase
+    .from("posts")
+    .select("*, users(username)")
+    .order("created_at", { ascending: false })
+    .limit(5);
+
+  if (error) {
+    console.error("Error fetching random posts:", error);
+    return null;
+  }
+
+  const returnedPostsWithVotes = await postsWithVotes(posts);
+
+  return { posts: returnedPostsWithVotes };
+}
+
+export async function getPostsBySearch(search) {
+  const { data: posts, error } = await supabase
+    .from("posts")
+    .select("*, users(username)")
+    .ilike("title", `%${search}%`)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching posts by search:", error);
+    return null;
+  }
+
+  const returnedPostsWithVotes = await postsWithVotes(posts);
+
+  return { posts: returnedPostsWithVotes };
+}

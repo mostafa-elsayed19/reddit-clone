@@ -14,16 +14,18 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="bg-gray-100 text-gray-900">
         <Providers>
-          <Navbar />
-          <main className="flex">
-            <Sidebar
-              position={"left"}
-              sidebarWidth={"w-1/6"}
-              subredditsList={<SubredditsList />}
-              toggleButton={true}
-              className="p-4"
-            />
-            {children}
+          <main className="flex h-screen flex-col">
+            <Navbar />
+            <section className="flex flex-1">
+              <Sidebar
+                position={"left"}
+                sidebarWidth={"w-1/7"}
+                data={<SubredditsList />}
+                toggleButton={true}
+                className="p-4"
+              />
+              {children}
+            </section>
           </main>
         </Providers>
       </body>
