@@ -24,3 +24,29 @@ export async function createSubreddit(newSubreddit) {
     return null;
   }
 }
+
+export async function getSubredditBySlug(slug) {
+  const { data: subreddit, error } = await supabase
+    .from("subreddits")
+    .select("*")
+    .eq("slug", slug)
+    .single();
+
+  if (error) {
+    console.error("Error fetching subreddit by slug:", error);
+    return null;
+  }
+
+  return { subreddit };
+}
+
+export async function deleteSubredditBySlug(slug) {
+  const { error } = await supabase.from("subreddits").delete().eq("slug", slug);
+
+  if (error) {
+    console.error("Error deleting subreddit by slug:", error);
+    return null;
+  }
+
+  return true;
+}

@@ -57,7 +57,7 @@ export async function getAllPosts() {
   const { data: posts, error } = await supabase
     .from("posts")
     // .select("*,votes(*), comments(*), users(username)")
-    .select("*, comments(*), users(username)")
+    .select("*, comments(*), users(username,avatar), subreddits(name)")
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -73,7 +73,9 @@ export async function getAllPosts() {
 export async function getPostById(id) {
   const { data: post, error } = await supabase
     .from("posts")
-    .select("*, users(username), comments(*, users(username, avatar))")
+    .select(
+      "*, users(username), comments(*, users(username, avatar)), subreddits(name)",
+    )
     .order("created_at", { ascending: false })
     .eq("id", id)
     .single();
@@ -116,7 +118,7 @@ export async function getPostById(id) {
 export async function getPostsBySubredditSlug(slug) {
   const { data: posts, error } = await supabase
     .from("posts")
-    .select("*, users(username)")
+    .select("*, users(username, avatar)")
     .eq("subreddit_slug", slug)
     .order("created_at", { ascending: false });
 

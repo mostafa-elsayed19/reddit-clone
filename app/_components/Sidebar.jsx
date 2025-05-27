@@ -2,7 +2,14 @@
 import { Menu } from "lucide-react";
 import { useState } from "react";
 
-function Sidebar({ data, position, sidebarWidth, toggleButton, className }) {
+function Sidebar({
+  data,
+  position,
+  sidebarWidth,
+  toggleButton,
+  className,
+  children,
+}) {
   const [showSidebar, setShowSidebar] = useState(true);
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
@@ -15,10 +22,10 @@ function Sidebar({ data, position, sidebarWidth, toggleButton, className }) {
 
   return (
     <div
-      className={`relative border-gray-300 ${!showSidebar ? "w-18" : sidebarWidth ? sidebarWidth : ""} ${className ? className : ""} ${position === "left" ? "border-r px-6" : ""}`}
+      className={`relative border-gray-300 transition-all duration-250 ease-in-out ${!showSidebar ? "w-18" : sidebarWidth ? sidebarWidth : ""} ${className ? className : ""} ${position === "left" ? "border-r px-6" : ""}`}
     >
       <div className={`flex h-full flex-col ${!showSidebar ? "hidden" : ""}`}>
-        <div className="flex-1 overflow-auto">{data}</div>
+        <div className="flex-1 overflow-auto">{data || children}</div>
 
         {position === "right" && (
           <div className="p-4 text-sm text-gray-500">

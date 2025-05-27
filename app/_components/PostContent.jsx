@@ -20,6 +20,7 @@ function PostContent({ post }) {
     updated_at,
     image,
     edited,
+    subreddits: { name: subredditName },
   } = post;
   const { data: session } = useSession();
   const isUser = session?.user.id === user_id;
@@ -43,12 +44,13 @@ function PostContent({ post }) {
     <div className="relative flex flex-col justify-center space-y-3">
       <section className="flex items-center gap-2">
         <img
-          src="https://placehold.co/400"
+          src={`https://avatar.iran.liara.run/username?username=${subredditName.replace(" ", "+")}`}
+          alt={subredditName}
           className="h-8 w-8 self-start rounded-full object-cover"
         />
         <div>
           <p className="text-sm text-gray-800">
-            {"r/subreddit"}{" "}
+            {`r/${subredditName}`}{" "}
             <span className="text-xs text-gray-500">
               • {formatDate(created_at)}{" "}
               {edited && `• Edited ${formatDate(updated_at)}`}

@@ -5,7 +5,6 @@ import CommentsList from "@/_components/CommentsList";
 import PostContent from "@/_components/PostContent";
 import VoteSection from "@/_components/VoteSection";
 import Wrapper from "@/_components/Wrapper";
-import { Share } from "lucide-react";
 import ShareButton from "@/_components/ShareButton";
 import CommentButton from "@/_components/CommentButton";
 
