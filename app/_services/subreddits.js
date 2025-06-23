@@ -50,3 +50,17 @@ export async function deleteSubredditBySlug(slug) {
 
   return true;
 }
+
+export async function updateSubreddit(slug, updatedData) {
+  const { error } = await supabase
+    .from("subreddits")
+    .update(updatedData)
+    .eq("slug", slug);
+
+  if (error) {
+    console.error("Error updating subreddit:", error);
+    return null;
+  }
+
+  return true;
+}

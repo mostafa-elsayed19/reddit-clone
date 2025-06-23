@@ -1,16 +1,14 @@
 import Wrapper from "@/_components/Wrapper";
 
-import Link from "next/link";
-import SubredditForm from "../_components/SubredditForm";
 import SubredditsList from "../_components/SubredditsList";
 import Sidebar from "../_components/Sidebar";
 import PostsList from "../_components/PostsList";
+import SubredditCreateToggleForm from "@/_components/SubredditCreateToggleForm";
 
 export default async function Home() {
   return (
     <Wrapper className="mx-0 flex flex-1 flex-col">
-      <Link href="/posts">Posts</Link>
-      <SubredditForm />
+      <SubredditCreateToggleForm />
       <div className="flex flex-1 gap-2">
         <div className="w-3/5">
           <PostsList />

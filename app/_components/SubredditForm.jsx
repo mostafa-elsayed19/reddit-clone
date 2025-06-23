@@ -2,16 +2,24 @@
 import { useState } from "react";
 import InputField from "./InputField";
 import Button from "./Button";
-import { createSubreddit } from "@/_services/subreddits";
+import { createSubreddit, updateSubreddit } from "@/_services/subreddits";
 import useAuthCheck from "@/Hooks/useAuthCheck";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-function SubredditForm() {
+function SubredditForm({
+  editMode = false,
+  name,
+  description,
+  subredditSlug,
+  setIsOpenModal,
+}) {
+  const router = useRouter();
   const { data: session } = useSession();
   const { checkAuth } = useAuthCheck();
   const [formData, setFormData] = useState({
-    name: "",
-    description: "",
+    name: name || "",
+    description: description || "",
   });
   function handleChange(e) {
     const { name, value } = e.target;
@@ -42,11 +50,26 @@ function SubredditForm() {
         .replace(/\s+/g, "-"),
     };
 
-    await createSubreddit(newSubreddit);
-    setFormData({
-      name: "",
-      description: "",
-    });
+    // If editMode is true, update the existing subreddit
+    if (editMode) {
+      // Call the update function here
+      await updateSubreddit(subredditSlug, newSubreddit);
+      alert("Subreddit updated successfully!");
+      setIsOpenModal(false);
+      router.push(`/subreddit/${newSubreddit.slug}`);
+      return;
+    } else {
+      // If not in edit mode, create a new subreddit }
+      await createSubreddit(newSubreddit);
+      setFormData({
+        name: "",
+        description: "",
+      });
+
+      alert("Subreddit created successfully!");
+      router.refresh();
+      return;
+    }
   }
 
   return (
@@ -70,7 +93,7 @@ function SubredditForm() {
         />
         <div>
           <Button type="submit" buttonType="submit">
-            Submit
+            {!editMode ? "Submit" : "Update"}
           </Button>
         </div>
       </form>

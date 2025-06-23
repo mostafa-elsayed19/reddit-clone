@@ -59,7 +59,7 @@ async function removeVote(votableId, userId) {
     .eq("votable_id", votableId)
     .eq("user_id", userId);
 
-  if (error) {
+  if (error && error.code !== "PGRST116") {
     console.error("Error deleting vote:", error);
   }
 }
@@ -96,7 +96,7 @@ export async function getVoteType(votableId, userId) {
     .eq("user_id", userId)
     .single();
 
-  if (error) {
+  if (error && error.code !== "PGRST116") {
     console.warn("Error fetching existing vote:", error);
     return null;
   }

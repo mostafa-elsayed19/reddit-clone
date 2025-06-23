@@ -12,8 +12,7 @@ function Button({
     edit: "text-yellow-500 hover:text-yellow-600 p-0",
     submit:
       "text-white px-4 py-2 bg-green-500 hover:bg-green-600 focus:ring-green-700",
-    default:
-      "text-white focus:ring-2 bg-blue-500 hover:bg-blue-600 focus:ring-blue-700 px-4 py-2",
+    default: "text-white bg-blue-500 hover:bg-blue-600  px-4 py-2",
   };
   return (
     <button

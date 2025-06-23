@@ -25,8 +25,8 @@ function OptionsMenu({ children, setIsOpen, isOpen }) {
   }, []);
 
   return (
-    <div className="absolute top-0 right-0 text-gray-500">
-      <div className="flex justify-end">
+    <div className="relative">
+      <div className="absolute top-0 right-0 z-10">
         <Menu
           ref={buttonRef}
           className="cursor-pointer"
@@ -36,7 +36,7 @@ function OptionsMenu({ children, setIsOpen, isOpen }) {
       {isOpen && (
         <ul
           ref={menuRef}
-          className="rounded-md border border-gray-100 text-sm font-semibold shadow-md *:cursor-pointer *:px-4 *:py-2 *:[&:not(:nth-last-child(-n+1))]:border-b *:[&:not(:nth-last-child(-n+1))]:border-gray-200"
+          className="absolute top-12 right-0 z-10 w-42 rounded-md border border-gray-100 bg-white text-sm font-semibold shadow-md *:cursor-pointer *:px-4 *:py-2 *:[&:not(:nth-last-child(-n+1))]:border-b *:[&:not(:nth-last-child(-n+1))]:border-gray-200"
         >
           {children}
         </ul>

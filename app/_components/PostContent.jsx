@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import OptionsMenu from "./OptionsMenu";
 import PostForm from "./PostForm";
 import { formatDate } from "@/_services/helpers";
+import Link from "next/link";
 
 function PostContent({ post }) {
   const {
@@ -20,7 +21,7 @@ function PostContent({ post }) {
     updated_at,
     image,
     edited,
-    subreddits: { name: subredditName },
+    subreddits: { name: subredditName, slug },
   } = post;
   const { data: session } = useSession();
   const isUser = session?.user.id === user_id;
@@ -44,18 +45,19 @@ function PostContent({ post }) {
     <div className="relative flex flex-col justify-center space-y-3">
       <section className="flex items-center gap-2">
         <img
-          src={`https://avatar.iran.liara.run/username?username=${subredditName.replace(" ", "+")}`}
+          src={`https://placehold.co/600x400`}
+          // src={`https://avatar.iran.liara.run/username?username=${subredditName.replace(" ", "+")}`}
           alt={subredditName}
           className="h-8 w-8 self-start rounded-full object-cover"
         />
         <div>
-          <p className="text-sm text-gray-800">
+          <Link href={`/subreddit/${slug}`} className="text-sm text-gray-800">
             {`r/${subredditName}`}{" "}
             <span className="text-xs text-gray-500">
               • {formatDate(created_at)}{" "}
               {edited && `• Edited ${formatDate(updated_at)}`}
             </span>
-          </p>
+          </Link>
           <p className="text-sm text-gray-700">{username}</p>
         </div>
       </section>

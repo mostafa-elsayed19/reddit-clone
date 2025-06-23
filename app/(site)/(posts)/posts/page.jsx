@@ -5,7 +5,6 @@ import Wrapper from "@/_components/Wrapper";
 function page() {
   return (
     <Wrapper>
-      <PostForm />
       <PostsList />
     </Wrapper>
   );

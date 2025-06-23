@@ -25,12 +25,16 @@ function PostCard({ post }) {
       <div className="flex flex-col gap-4">
         <section className="flex justify-between gap-4">
           <div>
-            <p className="mb-1 flex items-center gap-2 text-xs text-gray-500">
+            <Link
+              href={"/subreddit"}
+              className="mb-1 flex items-center gap-2 text-xs text-gray-500"
+            >
               <img
                 src={
                   isSubredditPage
                     ? post?.users?.avatar
-                    : `https://avatar.iran.liara.run/username?username=${post?.subreddits?.name.replace(" ", "+")}`
+                    : // : `https://avatar.iran.liara.run/username?username=${post?.subreddits?.name.replace(" ", "+")}`
+                      `https://placehold.co/600x400`
                 }
                 className="h-6 w-6 rounded-full object-cover"
               />
@@ -38,13 +42,8 @@ function PostCard({ post }) {
                 ? `u/${post?.users?.username}`
                 : `r/${post?.subreddits?.name}`}{" "}
               • {formatDate(post?.created_at)}
-            </p>
+            </Link>
             <h3 className="text-lg font-semibold">{post?.title}</h3>
-            {/* <p className="text-sm text-gray-700">
-              {post.content.length > 100
-                ? `${post.content.slice(0, 100)}...`
-                : post.content}
-            </p> */}
           </div>
           {post?.image && (
             <img
