@@ -16,6 +16,7 @@ import {
   leaveSubreddit,
 } from "@/_services/memberships";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 function SubredditPage({ subreddit, posts, slug }) {
   const { data: session } = useSession();
@@ -62,35 +63,49 @@ function SubredditPage({ subreddit, posts, slug }) {
     );
 
     if (!isAdmin) {
-      alert("You do not have permission to delete this subreddit.");
+      toast.error("You do not have permission to delete this subreddit.");
       return;
     }
 
     if (confirmDelete) {
-      await deleteSubredditBySlug(slug);
+      const data = await deleteSubredditBySlug(slug);
       // Optionally, redirect the user after deletion
-      window.location.href = "/";
-      alert("Subreddit deleted successfully.");
+      router.replace("/");
+      if (!data.state) {
+        toast.error(data.message);
+      }
+      toast.success(data.message);
     }
   }
 
   async function handleJoinLeaveSubreddit(state) {
     if (!session) {
-      alert("You must be logged in to join a subreddit.");
+      toast.error("You must be logged in to join a subreddit.");
       return;
     }
 
     const userId = session.user.id;
     const subredditId = subreddit.id;
+    const subredditName = subreddit.name;
+
+    let data = {};
 
     switch (state) {
       case "join":
-        await joinSubreddit(subredditId, userId);
+        data = await joinSubreddit(subredditId, userId, subredditName);
         setIsUserSubscribed(true);
+        if (!data.state) {
+          toast.error(data.message);
+        }
+        toast.success(data.message);
         break;
       case "leave":
-        await leaveSubreddit(subredditId, userId);
+        data = await leaveSubreddit(subredditId, userId, subredditName);
         setIsUserSubscribed(false);
+        if (!data.state) {
+          toast.error(data.message);
+        }
+        toast.success(data.message);
         break;
       default:
         console.error("Invalid state for joining/leaving subreddit:", state);

@@ -1,15 +1,19 @@
 import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 function useAuthCheck() {
   const { data: session, status } = useSession();
 
   function checkAuth() {
     if (!session?.user) {
-      alert("You must be logged in to perform this action.");
-      window.location.href = "/login"; // Redirect to login page
-      return false;
+      // toast("You must be logged in to perform this action.");
+      // Redirect to login page
+      return {
+        state: false,
+        message: "You must be logged in to perform this action.",
+      };
     }
-    return true;
+    return { state: true, message: "User is authenticated." };
   }
 
   return { checkAuth };

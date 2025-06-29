@@ -6,6 +6,7 @@ import { createSubreddit, updateSubreddit } from "@/_services/subreddits";
 import useAuthCheck from "@/Hooks/useAuthCheck";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 function SubredditForm({
   editMode = false,
@@ -13,6 +14,7 @@ function SubredditForm({
   description,
   subredditSlug,
   setIsOpenModal,
+  setShowForm,
 }) {
   const router = useRouter();
   const { data: session } = useSession();
@@ -29,14 +31,17 @@ function SubredditForm({
   async function handleSubmit(e) {
     e.preventDefault();
 
+    const { state, message } = checkAuth();
+
     // Check if user is authenticated
-    if (!checkAuth()) {
+    if (!state) {
+      toast.error(message);
       return;
     }
 
     // Handle form submission logic here
     if (!formData.name || !formData.description) {
-      alert("Please fill in all fields");
+      toast.error("Please fill in all fields.");
       return;
     }
 
@@ -53,20 +58,28 @@ function SubredditForm({
     // If editMode is true, update the existing subreddit
     if (editMode) {
       // Call the update function here
-      await updateSubreddit(subredditSlug, newSubreddit);
-      alert("Subreddit updated successfully!");
+      const data = await updateSubreddit(subredditSlug, newSubreddit);
+      if (!data.state) {
+        toast.error(data.message);
+        return;
+      }
+      toast.success(data.message);
       setIsOpenModal(false);
       router.push(`/subreddit/${newSubreddit.slug}`);
       return;
     } else {
       // If not in edit mode, create a new subreddit }
-      await createSubreddit(newSubreddit);
+      const data = await createSubreddit(newSubreddit);
+      if (!data.state) {
+        toast.error(data.message);
+        return;
+      }
+      toast.success(data.message);
       setFormData({
         name: "",
         description: "",
       });
-
-      alert("Subreddit created successfully!");
+      setShowForm(false);
       router.refresh();
       return;
     }

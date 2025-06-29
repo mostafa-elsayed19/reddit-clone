@@ -1,14 +1,16 @@
 import { supabase } from "@/_lib/supabase";
 
-export async function joinSubreddit(subredditId, userId) {
+export async function joinSubreddit(subredditId, userId, subredditName) {
   const isUserSubscibed = await isUserSubscribedToSubreddit(
     subredditId,
     userId,
   );
 
   if (isUserSubscibed) {
-    alert("User is already a member of this subreddit.");
-    return;
+    return {
+      state: false,
+      message: `User is already a member of r/${subredditName}.`,
+    };
   }
 
   const { error } = await supabase
@@ -18,13 +20,13 @@ export async function joinSubreddit(subredditId, userId) {
 
   if (error && error.code !== "PGRST116") {
     console.error("Error joining subreddit:", error);
-    throw error;
+    return { state: false, message: `Error joining r/${subredditName}` };
   }
 
-  return;
+  return { state: true, message: `Successfully joined r/${subredditName}` };
 }
 
-export async function leaveSubreddit(subredditId, userId) {
+export async function leaveSubreddit(subredditId, userId, subredditName) {
   const { error } = await supabase
     .from("memberships")
     .delete()
@@ -33,10 +35,10 @@ export async function leaveSubreddit(subredditId, userId) {
 
   if (error && error.code !== "PGRST116") {
     console.error("Error leaving subreddit:", error);
-    throw error;
+    return { state: false, message: `Error leaving r/${subredditName}` };
   }
 
-  return;
+  return { state: true, message: `Successfully left r/${subredditName}` };
 }
 
 export async function getSubredditMemberships(subredditId) {

@@ -21,8 +21,13 @@ export async function createSubreddit(newSubreddit) {
 
   if (error) {
     console.error("Error creating subreddit:", error);
-    return null;
+    return { state: false, message: "Error creating subreddit" };
   }
+
+  return {
+    state: true,
+    message: `Subreddit r/${newSubreddit.name} created successfully!`,
+  };
 }
 
 export async function getSubredditBySlug(slug) {
@@ -45,10 +50,13 @@ export async function deleteSubredditBySlug(slug) {
 
   if (error) {
     console.error("Error deleting subreddit by slug:", error);
-    return null;
+    return { state: false, message: `Error deleting r/${slug}` };
   }
 
-  return true;
+  return {
+    state: true,
+    message: `Subreddit r/${slug} deleted successfully!`,
+  };
 }
 
 export async function updateSubreddit(slug, updatedData) {
@@ -59,8 +67,11 @@ export async function updateSubreddit(slug, updatedData) {
 
   if (error) {
     console.error("Error updating subreddit:", error);
-    return null;
+    return { state: false, message: `Error updating r/${updatedData.name}` };
   }
 
-  return true;
+  return {
+    state: true,
+    message: `Subreddit r/${updatedData.name} updated successfully!`,
+  };
 }

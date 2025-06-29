@@ -31,7 +31,7 @@ function SubredditCreateToggleForm() {
       </Button>
       {shouldRenderForm && (
         <div className={showForm ? "animate-fade-in" : "animate-fade-out"}>
-          <SubredditForm />
+          <SubredditForm setShowForm={setShowForm} />
         </div>
       )}
     </section>
