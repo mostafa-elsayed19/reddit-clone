@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
             <section className="flex flex-1">
               <Sidebar
                 position={"left"}
-                sidebarWidth={"w-1/7"}
+                sidebarWidth={"2xl:w-1/7 md:w-2/7"}
                 data={<SubredditsList />}
                 toggleButton={true}
                 className="p-4"

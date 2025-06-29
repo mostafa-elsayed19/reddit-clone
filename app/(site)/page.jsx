@@ -9,8 +9,8 @@ export default async function Home() {
   return (
     <Wrapper className="mx-0 flex flex-1 flex-col">
       <SubredditCreateToggleForm />
-      <div className="flex flex-1 gap-2">
-        <div className="w-3/5">
+      <div className="md:flex md:flex-1 md:gap-2">
+        <div className="md:w-3/5">
           <PostsList />
         </div>
         <Sidebar

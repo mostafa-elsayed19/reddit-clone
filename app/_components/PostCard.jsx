@@ -17,7 +17,7 @@ function PostCard({ post }) {
   return (
     <article
       key={post?.id}
-      className="cursor-pointer items-start rounded-2xl bg-white p-4 shadow transition-shadow duration-200 ease-in-out hover:bg-gray-50 hover:shadow-lg"
+      className="cursor-pointer rounded-2xl bg-white p-4 shadow transition-shadow duration-200 ease-in-out hover:bg-gray-50 hover:shadow-lg"
       onClick={() => {
         router.push(`/post/${post.id}`);
       }}

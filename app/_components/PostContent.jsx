@@ -43,70 +43,73 @@ function PostContent({ post }) {
   }
   return (
     <div className="relative flex flex-col justify-center space-y-3">
-      <section className="flex items-center gap-2">
-        <img
-          src={`https://placehold.co/600x400`}
-          // src={`https://avatar.iran.liara.run/username?username=${subredditName.replace(" ", "+")}`}
-          alt={subredditName}
-          className="h-8 w-8 self-start rounded-full object-cover"
-        />
-        <div>
-          <Link href={`/subreddit/${slug}`} className="text-sm text-gray-800">
-            {`r/${subredditName}`}{" "}
-            <span className="text-xs text-gray-500">
-              • {formatDate(created_at)}{" "}
-              {edited && `• Edited ${formatDate(updated_at)}`}
-            </span>
-          </Link>
-          <p className="text-sm text-gray-700">{username}</p>
+      <section className="flex justify-between">
+        <div className="flex items-center gap-2">
+          <img
+            src={`https://placehold.co/600x400`}
+            // src={`https://avatar.iran.liara.run/username?username=${subredditName.replace(" ", "+")}`}
+            alt={subredditName}
+            className="h-8 w-8 self-start rounded-full object-cover"
+          />
+          <div>
+            <Link href={`/subreddit/${slug}`} className="text-sm text-gray-800">
+              {`r/${subredditName}`}{" "}
+              <span className="text-xs text-gray-500">
+                • {formatDate(created_at)}{" "}
+                {edited && `• Edited ${formatDate(updated_at)}`}
+              </span>
+            </Link>
+            <p className="text-sm text-gray-700">{username}</p>
+          </div>
         </div>
+
+        {/* Options Menu */}
+        <OptionsMgenu isOpen={isOpenMenu} setIsOpen={setIsOpenMenu}>
+          {isUser ? (
+            <>
+              <li
+                onClick={() => {
+                  setIsOpenMenu(false);
+                  setIsOpenModal(true);
+                }}
+              >
+                Edit
+              </li>
+              <li
+                onClick={() => {
+                  setIsOpenMenu(false);
+                  handleDelete();
+                }}
+              >
+                Delete
+              </li>
+            </>
+          ) : (
+            <>
+              <li
+                onClick={() => {
+                  setIsOpenMenu(false);
+                  setIsOpenModal(true);
+                }}
+              >
+                Bookmark
+              </li>
+              <li
+                onClick={() => {
+                  setIsOpenMenu(false);
+                  handleDelete();
+                }}
+              >
+                Not interested
+              </li>
+            </>
+          )}
+        </OptionsMgenu>
       </section>
 
       <h1 className="text-2xl font-bold">{title}</h1>
       <p className="mb-6 text-gray-800">{content}</p>
       <img src={image} className="rounded-2xl" />
-
-      <OptionsMenu isOpen={isOpenMenu} setIsOpen={setIsOpenMenu}>
-        {isUser ? (
-          <>
-            <li
-              onClick={() => {
-                setIsOpenMenu(false);
-                setIsOpenModal(true);
-              }}
-            >
-              Edit
-            </li>
-            <li
-              onClick={() => {
-                setIsOpenMenu(false);
-                handleDelete();
-              }}
-            >
-              Delete
-            </li>
-          </>
-        ) : (
-          <>
-            <li
-              onClick={() => {
-                setIsOpenMenu(false);
-                setIsOpenModal(true);
-              }}
-            >
-              Bookmark
-            </li>
-            <li
-              onClick={() => {
-                setIsOpenMenu(false);
-                handleDelete();
-              }}
-            >
-              Not interested
-            </li>
-          </>
-        )}
-      </OptionsMenu>
 
       {/* Modal for editing the post content */}
       {isOpenModal && (

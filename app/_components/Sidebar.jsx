@@ -22,7 +22,7 @@ function Sidebar({
 
   return (
     <div
-      className={`relative border-gray-300 transition-all duration-250 ease-in-out ${!showSidebar ? "w-18" : sidebarWidth ? sidebarWidth : ""} ${className ? className : ""} ${position === "left" ? "border-r px-6" : ""}`}
+      className={`relative hidden border-gray-300 transition-all duration-250 ease-in-out lg:block ${!showSidebar ? "w-18" : sidebarWidth ? sidebarWidth : ""} ${className ? className : ""} ${position === "left" ? "border-r px-6" : "md:block"}`}
     >
       <div className={`flex h-full flex-col ${!showSidebar ? "hidden" : ""}`}>
         <div className="flex-1 overflow-auto">{data || children}</div>
