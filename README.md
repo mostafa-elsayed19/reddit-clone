@@ -7,7 +7,12 @@ A simple Reddit-inspired discussion platform built with **Next.js 15 (App Router
 - **Next.js 14** – App Router, Client Components
 - **React** – Functional components with Hooks
 - **Tailwind CSS** – Utility-first CSS framework
+- **Supabase** – Backend as a Service (BaaS) for authentication and database
+- **bcryptjs** – Password hashing
+- **lucide-react** – Icon library for React
+- **react-hot-toast** – Toast notifications
 - **ESLint + Prettier** – Code formatting and linting
+- **prettier-plugin-tailwindcss** – Prettier plugin for sorting Tailwind classes
 
 ## 🚀 Features (in progress)
 
