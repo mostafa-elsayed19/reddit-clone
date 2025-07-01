@@ -13,11 +13,11 @@ A simple Reddit-inspired discussion platform built with **Next.js 15 (App Router
 
 - [x] User login & registration forms
 - [x] Authentication (Google)
-- [ ] Create posts
-- [ ] Comment system
-- [ ] Upvotes/Downvotes
-- [ ] Subreddits (categories)
-- [ ] Responsive design
+- [x] Create posts
+- [x] Comment system
+- [x] Upvotes/Downvotes
+- [x] Subreddits (categories)
+- [x] Responsive design
 
 ## 🔮 Future Enhancements
 
