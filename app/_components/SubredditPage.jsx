@@ -199,7 +199,7 @@ function SubredditPage({ subreddit, posts, slug }) {
       {isOpenModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="fixed inset-0 -z-50 flex items-center justify-center bg-black opacity-50"></div>
-          <div className="relative w-1/3 rounded-lg bg-white p-6 shadow-lg">
+          <div className="relative w-2/3 rounded-lg bg-white p-6 shadow-lg lg:w-1/3">
             <SubredditForm
               editMode={true}
               subredditSlug={slug}

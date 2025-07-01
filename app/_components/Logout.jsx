@@ -9,7 +9,7 @@ function Logout() {
   }
   return (
     <Button type="submit" onClick={() => handleLogout()}>
-      LogOut
+      Logout
     </Button>
   );
 }

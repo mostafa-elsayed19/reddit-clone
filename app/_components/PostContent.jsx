@@ -9,6 +9,7 @@ import OptionsMenu from "./OptionsMenu";
 import PostForm from "./PostForm";
 import { formatDate } from "@/_services/helpers";
 import Link from "next/link";
+import { X } from "lucide-react";
 
 function PostContent({ post }) {
   const {
@@ -64,7 +65,7 @@ function PostContent({ post }) {
         </div>
 
         {/* Options Menu */}
-        <OptionsMgenu isOpen={isOpenMenu} setIsOpen={setIsOpenMenu}>
+        <OptionsMenu isOpen={isOpenMenu} setIsOpen={setIsOpenMenu}>
           {isUser ? (
             <>
               <li
@@ -104,7 +105,7 @@ function PostContent({ post }) {
               </li>
             </>
           )}
-        </OptionsMgenu>
+        </OptionsMenu>
       </section>
 
       <h1 className="text-2xl font-bold">{title}</h1>
@@ -116,7 +117,7 @@ function PostContent({ post }) {
         <div className="fixed inset-0 z-10 flex items-center justify-center">
           <div className="fixed inset-0 -z-50 flex items-center justify-center bg-black opacity-50"></div>
 
-          <div className="w-1/3">
+          <div className="relative w-2/3 rounded-lg bg-white p-6 shadow-lg lg:w-1/3">
             <PostForm
               edit={true}
               postId={postId}
@@ -125,6 +126,13 @@ function PostContent({ post }) {
               image={image}
               closeModal={() => setIsOpenModal(false)}
             />
+
+            <span
+              className="absolute top-2 right-2 cursor-pointer rounded-full bg-gray-200 p-1 text-gray-600 hover:bg-gray-300"
+              onClick={() => setIsOpenModal(false)}
+            >
+              <X />
+            </span>
           </div>
         </div>
       )}

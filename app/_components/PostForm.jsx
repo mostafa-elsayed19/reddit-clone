@@ -98,12 +98,12 @@ function PostForm({ edit, postId, title, content, closeModal, image, slug }) {
 
   return (
     <section className={`relative rounded-2xl bg-white p-4 shadow`}>
-      {edit && (
+      {/* {edit && (
         <X
           className="absolute top-4 right-4 cursor-pointer"
           onClick={closeModal}
         />
-      )}
+      )} */}
       <h2 className="mb-2 text-xl font-semibold">
         {!edit ? "Create a Post" : "Edit Post"}
       </h2>
