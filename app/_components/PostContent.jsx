@@ -17,13 +17,18 @@ function PostContent({ post }) {
     user_id,
     title,
     content,
-    users: { username },
+    users,
     created_at,
     updated_at,
     image,
     edited,
-    subreddits: { name: subredditName, slug },
+    subreddits,
   } = post;
+
+  const username = users?.username;
+  const subredditName = subreddits?.name;
+  const slug = subreddits?.slug;
+
   const { data: session } = useSession();
   const isUser = session?.user.id === user_id;
 
@@ -42,6 +47,11 @@ function PostContent({ post }) {
 
     router.push("/");
   }
+
+  if (!post || !post.users || !post.subreddits) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="relative flex flex-col justify-center space-y-3">
       <section className="flex justify-between">
@@ -60,7 +70,12 @@ function PostContent({ post }) {
                 {edited && `• Edited ${formatDate(updated_at)}`}
               </span>
             </Link>
-            <p className="text-sm text-gray-700">{username}</p>
+            <p
+              className="cursor-pointer text-sm text-gray-700"
+              onClick={() => router.push(`/u/${user_id}`)}
+            >
+              {username}
+            </p>
           </div>
         </div>
 

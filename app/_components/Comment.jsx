@@ -14,7 +14,6 @@ import ShareButton from "./ShareButton";
 import CommentReply from "./CommentReply";
 
 function Comment({ comment }) {
-  console.log(comment);
   const [isEdit, setIsEdit] = useState(false);
   const [isReply, setIsReply] = useState(false);
   const { data: session } = useSession();
@@ -35,7 +34,7 @@ function Comment({ comment }) {
 
   const userId = session?.user?.id;
   const isAuthor = userId === user_id;
-  const votes = upvotes - downvotes;
+  const votes = (upvotes || 0) - (downvotes || 0);
 
   async function handleDelete(id) {
     // Logic to delete the comment

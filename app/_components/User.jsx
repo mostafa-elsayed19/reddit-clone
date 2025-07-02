@@ -1,11 +1,13 @@
 "use client";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+// import { useState } from "react";
 import Logout from "./Logout";
-import OptionsMenu from "./OptionsMenu";
+// import OptionsMenu from "./OptionsMenu";
 
 function User({ user }) {
-  const { username, avatar } = user;
-  const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const router = useRouter();
+  const { username, avatar, id: userId } = user;
+  // const [isOpenMenu, setIsOpenMenu] = useState(false);
   const upperCaseUsername = username
     .split(" ")
     .map((word) => {
@@ -14,7 +16,10 @@ function User({ user }) {
     .join(" ");
   return (
     <ul className="flex flex-col justify-between gap-4 rounded-lg bg-white p-4 shadow-md md:flex-row">
-      <div className="flex w-full items-center gap-4">
+      <div
+        className="flex w-full cursor-pointer items-center gap-4"
+        onClick={() => router.push(`/u/${userId}`)}
+      >
         <li>
           <img
             src={avatar}

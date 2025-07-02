@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { addComment, editComment } from "@/_services/comments";
 import { useRouter } from "next/navigation";
@@ -9,16 +9,19 @@ import Button from "./Button";
 import InputField from "./InputField";
 import useAuthCheck from "@/Hooks/useAuthCheck";
 
-function CommentForm({
-  postId,
-  edit = false,
-  reply = false,
-  content,
-  commentId,
-  parentId,
-  editUserId,
-  setStatus,
-}) {
+const CommentForm = forwardRef(function CommentForm(
+  {
+    postId,
+    edit = false,
+    reply = false,
+    content,
+    commentId,
+    parentId,
+    editUserId,
+    setStatus,
+  },
+  ref,
+) {
   const { checkAuth } = useAuthCheck();
   const router = useRouter();
   const { data: session } = useSession();
@@ -81,6 +84,7 @@ function CommentForm({
         placeholder="Add your comment..."
         onChange={handleChange}
         value={formData.content}
+        ref={ref}
       />
       {/* {!edit && <Button type="submit">Submit</Button>} */}
 
@@ -92,6 +96,6 @@ function CommentForm({
       </div>
     </form>
   );
-}
+});
 
 export default CommentForm;

@@ -55,7 +55,7 @@ function VoteSection({ votes, votableType, votableId }) {
         >
           <ArrowBigUp onClick={() => handleVote("up")} />
         </button>
-        <span>{votes}</span>
+        <span>{votes || 0}</span>
         <button
           className={`cursor-pointer rounded-full border border-transparent hover:border-gray-700 hover:text-gray-700 ${userVoteType === "down" ? "text-gray-700" : "text-gray-500"}`}
         >

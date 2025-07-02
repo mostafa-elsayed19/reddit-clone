@@ -1,3 +1,5 @@
+"use client";
+
 import { getPostById } from "@/_services/posts";
 
 import CommentForm from "@/_components/CommentForm";
@@ -7,15 +9,42 @@ import VoteSection from "@/_components/VoteSection";
 import Wrapper from "@/_components/Wrapper";
 import ShareButton from "@/_components/ShareButton";
 import CommentButton from "@/_components/CommentButton";
+import { useEffect, useRef, useState } from "react";
+import { useParams } from "next/navigation";
 
-async function page({ params }) {
-  const { id: postId } = await params;
+function page() {
+  const commentInputRef = useRef(null);
+  const [post, setPost] = useState({});
+  const [votes, setVotes] = useState(0);
+  const [comments, setComments] = useState([]);
+  const { id: postId } = useParams();
 
-  const { post } = await getPostById(postId);
+  // const { id: postId } = await params;
 
-  const { upvotes, downvotes, comments } = post;
+  // const { post } = await getPostById(postId);
 
-  const votes = upvotes - downvotes;
+  // const votes = upvotes - downvotes;
+
+  useEffect(() => {
+    async function fetchPost() {
+      const { post } = await getPostById(postId);
+      setPost(post);
+
+      const { upvotes, downvotes, comments } = post;
+
+      const votes = upvotes - downvotes;
+
+      setVotes(votes);
+      setComments(comments);
+    }
+    fetchPost();
+  }, [postId]);
+
+  useEffect(() => {
+    if (window.location.hash === "#comment" && commentInputRef.current) {
+      commentInputRef.current.focus();
+    }
+  }, []);
 
   return (
     <Wrapper>
@@ -28,7 +57,7 @@ async function page({ params }) {
           <ShareButton />
         </div>
 
-        <CommentForm postId={postId} />
+        <CommentForm postId={postId} ref={commentInputRef} />
         <CommentsList comments={comments} />
       </section>
     </Wrapper>

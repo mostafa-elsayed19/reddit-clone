@@ -1,18 +1,23 @@
+"use client";
 import { Image, X } from "lucide-react";
+import { forwardRef } from "react";
 
-export default function InputField({
-  label,
-  type = "text",
-  name,
-  value,
-  onChange,
-  placeholder,
-  required = false,
-  rows = 3,
-  accept,
-  imagePreview,
-  removeImage,
-}) {
+const InputField = forwardRef(function InputField(
+  {
+    label,
+    type = "text",
+    name,
+    value,
+    onChange,
+    placeholder,
+    required = false,
+    rows = 3,
+    accept,
+    imagePreview,
+    removeImage,
+  },
+  ref,
+) {
   return (
     <div>
       {type === "file" ? (
@@ -69,6 +74,7 @@ export default function InputField({
               placeholder={placeholder}
               required={required}
               rows={rows}
+              ref={ref}
             ></textarea>
           ) : (
             <input
@@ -86,4 +92,6 @@ export default function InputField({
       )}
     </div>
   );
-}
+});
+
+export default InputField;

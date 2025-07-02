@@ -8,7 +8,7 @@ import CommentButton from "./CommentButton";
 import ShareButton from "./ShareButton";
 
 function PostCard({ post }) {
-  const votes = post.upvotes - post.downvotes;
+  const votes = (post.upvotes || 0) - (post.downvotes || 0);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -32,15 +32,15 @@ function PostCard({ post }) {
               <img
                 src={
                   isSubredditPage
-                    ? post?.users?.avatar
+                    ? post.users?.avatar
                     : // : `https://avatar.iran.liara.run/username?username=${post?.subreddits?.name.replace(" ", "+")}`
                       `https://placehold.co/600x400`
                 }
                 className="h-6 w-6 rounded-full object-cover"
               />
               {isSubredditPage
-                ? `u/${post?.users?.username}`
-                : `r/${post?.subreddits?.name}`}{" "}
+                ? `u/${post.users?.username}`
+                : `r/${post.subreddits?.name}`}{" "}
               • {formatDate(post?.created_at)}
             </Link>
             <h3 className="text-lg font-semibold">{post?.title}</h3>
@@ -61,9 +61,13 @@ function PostCard({ post }) {
             votableType="post"
           />
 
-          <Link href={`/post/${post.id}`} onClick={(e) => e.stopPropagation()}>
-            <CommentButton commentsCount={post?.comments?.length} />
-          </Link>
+          <CommentButton
+            commentsCount={post?.comments?.length}
+            onClick={(e) => {
+              e.stopPropagation();
+              router.push(`/post/${post.id}#comment`);
+            }}
+          />
 
           <ShareButton />
         </div>

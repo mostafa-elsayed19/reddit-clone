@@ -135,7 +135,7 @@ export async function getPostsBySubredditSlug(slug) {
 export async function getPostsByUserId(id) {
   const { data: posts, error } = await supabase
     .from("posts")
-    .select("*, users(username)")
+    .select("*, subreddits(name)")
     .eq("user_id", id)
     .order("created_at", { ascending: false });
 
