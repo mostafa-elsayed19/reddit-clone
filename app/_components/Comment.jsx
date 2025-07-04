@@ -13,7 +13,7 @@ import CommentButton from "./CommentButton";
 import ShareButton from "./ShareButton";
 import CommentReply from "./CommentReply";
 
-function Comment({ comment }) {
+function Comment({ comment, isLink = false }) {
   const [isEdit, setIsEdit] = useState(false);
   const [isReply, setIsReply] = useState(false);
   const { data: session } = useSession();
@@ -43,12 +43,27 @@ function Comment({ comment }) {
       return;
     }
 
+    const confirm = window.confirm(
+      "Are you sure you want to delete this comment?",
+    );
+    if (!confirm) return;
+
     // Call the deleteComment function from your service
     await deleteComment(id);
     router.refresh(); // Refresh the page to reflect the changes
   }
+
   return (
-    <li className="relative my-4 flex flex-col justify-between gap-2 rounded-lg border border-t-0 border-l-0 border-gray-100 px-4 py-2">
+    <li
+      className={`relative my-4 flex flex-col justify-between gap-2 rounded-lg border border-t-0 border-l-0 border-gray-100 px-4 py-2 ${isLink ? "cursor-pointer" : ""}`}
+      onClick={
+        isLink
+          ? () => {
+              router.push(`/post/${post_id}`);
+            }
+          : undefined
+      }
+    >
       <section className="flex justify-between">
         <div className="absolute -top-2 -left-2 flex flex-1 items-center gap-2">
           <img
@@ -85,7 +100,13 @@ function Comment({ comment }) {
               votableType={"comment"}
               votableId={commentId}
             />
-            <CommentButton reply={true} onClick={() => setIsReply(true)} />
+            <CommentButton
+              reply={true}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsReply(true);
+              }}
+            />
             <ShareButton />
           </div>
 
@@ -95,7 +116,7 @@ function Comment({ comment }) {
               reply={true}
               postId={post_id}
               parentId={commentId}
-              setStatus={() => setIsReply(!isReply)}
+              setStatus={() => setIsReply(false)}
             />
           )}
 
@@ -103,13 +124,7 @@ function Comment({ comment }) {
           {replies && replies.length > 0 && (
             <>
               {replies.map((reply) => (
-                <CommentReply
-                  key={reply.id}
-                  reply={reply}
-                  handleDelete={handleDelete}
-                  setIsEdit={setIsEdit}
-                  isEdit={isEdit}
-                />
+                <CommentReply key={reply.id} reply={reply} />
               ))}
             </>
           )}

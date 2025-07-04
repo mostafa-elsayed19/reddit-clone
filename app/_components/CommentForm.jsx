@@ -86,7 +86,6 @@ const CommentForm = forwardRef(function CommentForm(
         value={formData.content}
         ref={ref}
       />
-      {/* {!edit && <Button type="submit">Submit</Button>} */}
 
       <div className="space-x-2">
         <Button type="submit" buttonType="submit">

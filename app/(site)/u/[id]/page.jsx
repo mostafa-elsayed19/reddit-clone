@@ -10,6 +10,9 @@ import { getUserById } from "@/_services/users";
 import { formatDate } from "@/_services/helpers";
 import { getPostsByUserId } from "@/_services/posts";
 import { getCommentsByUserId } from "@/_services/comments";
+import Comment from "@/_components/Comment";
+import { getUserMemberships } from "@/_services/memberships";
+import SubredditCard from "@/_components/SubredditCard";
 
 const mockUser = {
   username: "johndoe",
@@ -71,7 +74,7 @@ const mockComments = [
   },
 ];
 
-const tabs = ["Posts", "Comments", "About"];
+const tabs = ["Posts", "Comments", "Subreddits", "Bookmarks", "About"];
 
 export default function UserPage() {
   const [activeTab, setActiveTab] = useState("Posts");
@@ -79,6 +82,7 @@ export default function UserPage() {
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState([]);
+  const [subreddits, setSubreddits] = useState([]);
 
   function formatUsername(username) {
     if (!username) return "";
@@ -99,7 +103,11 @@ export default function UserPage() {
       setPosts(posts);
 
       const comments = await getCommentsByUserId(id);
+      console.log(comments);
       setComments(comments);
+
+      const { memberships } = await getUserMemberships(id);
+      setSubreddits(memberships);
     };
     fetchUserWithPostsAndComments();
   }, [id]);
@@ -145,20 +153,49 @@ export default function UserPage() {
 
       {/* Tab Content */}
       <section>
-        {activeTab === "Posts" && (
-          <div className="space-y-4">
-            {posts.map((post) => (
-              <PostCard key={post.id} post={post} />
-            ))}
-          </div>
-        )}
-        {activeTab === "Comments" && (
+        {activeTab === "Posts" &&
+          (posts.length === 0 ? (
+            <div className="rounded-lg bg-white p-6 shadow-md">
+              <p>No Posts found</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {posts.map((post) => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </div>
+          ))}
+        {activeTab === "Comments" &&
+          (comments.length === 0 ? (
+            <div className="rounded-lg bg-white p-6 shadow-md">
+              <p>No Comments found</p>
+            </div>
+          ) : (
+            <div className="rounded-lg bg-white p-6 shadow-md">
+              {comments.map((comment) => (
+                <Comment key={comment.id} comment={comment} isLink={true} />
+              ))}
+            </div>
+          ))}
+        {activeTab === "Subreddits" &&
+          (subreddits.length === 0 ? (
+            <div className="rounded-lg bg-white p-6 shadow-md">
+              <p>No Subreddits found</p>
+            </div>
+          ) : (
+            <div className="rounded-lg bg-white p-6 shadow-md">
+              {subreddits.map((subreddit) => (
+                <SubredditCard subreddit={subreddit} key={subreddit.id} />
+              ))}
+            </div>
+          ))}
+        {activeTab === "Bookmarks" && (
           <div className="rounded-lg bg-white p-6 shadow-md">
-            <CommentsList comments={comments} />
+            <p>No bookmarks found</p>
           </div>
         )}
         {activeTab === "About" && (
-          <div className="prose max-w-none">
+          <div className="prose max-w-none rounded-lg bg-white p-6 shadow-md">
             <h3 className="mb-2 text-lg font-bold">
               About u/{formatUsername(user?.username)}
             </h3>

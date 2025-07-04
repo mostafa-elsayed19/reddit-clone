@@ -1,4 +1,5 @@
 import { supabase } from "@/_lib/supabase";
+import { joinSubreddit } from "./memberships";
 
 export async function getAllSubreddits() {
   const { data: subreddits, error } = await supabase
@@ -15,14 +16,20 @@ export async function getAllSubreddits() {
 }
 
 export async function createSubreddit(newSubreddit) {
-  const { error } = await supabase
+  const { data: subreddit, error } = await supabase
     .from("subreddits")
-    .insert([{ ...newSubreddit }]);
+    .insert([{ ...newSubreddit }])
+    .select()
+    .single();
 
   if (error) {
     console.error("Error creating subreddit:", error);
     return { state: false, message: "Error creating subreddit" };
   }
+
+  const { admin_id: userId, name, id: subredditId } = subreddit;
+
+  await joinSubreddit(subredditId, userId, name);
 
   return {
     state: true,

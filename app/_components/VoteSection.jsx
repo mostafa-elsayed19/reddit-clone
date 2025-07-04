@@ -1,5 +1,5 @@
 "use client";
-import { getVoteType, updateVote } from "@/_services/votes";
+import { getVoteType, updateVote, getVotesCount } from "@/_services/votes";
 import { ArrowBigDown, ArrowBigUp } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -7,13 +7,19 @@ import { useEffect, useState } from "react";
 
 import useAuthCheck from "@/Hooks/useAuthCheck";
 
-function VoteSection({ votes, votableType, votableId }) {
+function VoteSection({ votes: initialVotes, votableType, votableId }) {
   const { checkAuth } = useAuthCheck();
   const { data: session } = useSession();
   const [userVoteType, setUserVoteType] = useState("");
+  const [votes, setVotes] = useState(initialVotes || 0);
   const router = useRouter();
 
   const userId = session?.user.id;
+
+  // Update local votes when initialVotes prop changes
+  useEffect(() => {
+    setVotes(initialVotes || 0);
+  }, [initialVotes]);
 
   useEffect(() => {
     if (!userId) return;
@@ -35,13 +41,20 @@ function VoteSection({ votes, votableType, votableId }) {
       type,
     };
 
-    await updateVote(newVote);
+    // Update the user's vote type immediately for UI feedback
     if (userVoteType === type) {
       setUserVoteType("");
     } else {
       setUserVoteType(type);
     }
-    router.refresh();
+
+    // Update the vote in the database
+    await updateVote(newVote);
+
+    // Fetch the updated vote count
+    const { upvotes, downvotes } = await getVotesCount(votableId);
+    const newVoteCount = upvotes - downvotes;
+    setVotes(newVoteCount);
   }
 
   return (
@@ -55,7 +68,7 @@ function VoteSection({ votes, votableType, votableId }) {
         >
           <ArrowBigUp onClick={() => handleVote("up")} />
         </button>
-        <span>{votes || 0}</span>
+        <span>{votes}</span>
         <button
           className={`cursor-pointer rounded-full border border-transparent hover:border-gray-700 hover:text-gray-700 ${userVoteType === "down" ? "text-gray-700" : "text-gray-500"}`}
         >

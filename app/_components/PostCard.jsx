@@ -48,7 +48,7 @@ function PostCard({ post }) {
           {post?.image && (
             <img
               src={post?.image}
-              className="h-24 w-24 rounded-2xl object-cover"
+              className="max-h-24 max-w-24 rounded-2xl object-contain"
             />
           )}
         </section>

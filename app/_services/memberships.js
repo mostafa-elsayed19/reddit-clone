@@ -58,7 +58,7 @@ export async function getSubredditMemberships(subredditId) {
 export async function getUserMemberships(userId) {
   const { data, error } = await supabase
     .from("memberships")
-    .select("subreddit_id")
+    .select("subreddit_id, subreddits(name, id, slug)")
     .eq("user_id", userId);
 
   if (error && error.code !== "PGRST116") {
@@ -66,7 +66,16 @@ export async function getUserMemberships(userId) {
     throw error;
   }
 
-  return data.map((membership) => membership.subreddit_id);
+  const memberships = data.map((membership) => {
+    const { name, id, slug } = membership.subreddits;
+    return {
+      id,
+      name,
+      slug,
+    };
+  });
+
+  return { memberships };
 }
 
 export async function isUserSubscribedToSubreddit(subredditId, userId) {

@@ -110,14 +110,6 @@ function PostContent({ post }) {
               >
                 Bookmark
               </li>
-              <li
-                onClick={() => {
-                  setIsOpenMenu(false);
-                  handleDelete();
-                }}
-              >
-                Not interested
-              </li>
             </>
           )}
         </OptionsMenu>
@@ -125,7 +117,7 @@ function PostContent({ post }) {
 
       <h1 className="text-2xl font-bold">{title}</h1>
       <p className="mb-6 text-gray-800">{content}</p>
-      <img src={image} className="rounded-2xl" />
+      <img src={image} className="max-h-72 rounded-2xl object-contain" />
 
       {/* Modal for editing the post content */}
       {isOpenModal && (

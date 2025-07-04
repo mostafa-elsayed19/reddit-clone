@@ -71,6 +71,7 @@ function SubredditPage({ subreddit, posts, slug }) {
       const data = await deleteSubredditBySlug(slug);
       // Optionally, redirect the user after deletion
       router.replace("/");
+      router.refresh();
       if (!data.state) {
         toast.error(data.message);
       }
