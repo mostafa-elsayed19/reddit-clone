@@ -10,6 +10,12 @@ export default function AuthLayout({ children }) {
         <Providers>
           <div className="w-full max-w-md space-y-4 rounded-lg bg-white p-8 px-6 shadow-md">
             {children}
+            <p className="text-center text-sm text-gray-600">
+              Return to{" "}
+              <a href="/" className="text-blue-500 hover:underline">
+                Home
+              </a>
+            </p>
           </div>
         </Providers>
       </body>

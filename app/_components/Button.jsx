@@ -3,7 +3,7 @@ function Button({
   type = "button",
   onClick,
   disabled = false,
-  className,
+  className = "",
   fullWidth = false,
   buttonType = "default",
 }) {

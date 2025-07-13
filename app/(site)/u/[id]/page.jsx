@@ -134,7 +134,7 @@ export default function UserPage() {
       </section>
 
       {/* Tabs */}
-      <nav className="mt-6 flex justify-center gap-4">
+      <nav className="mt-6 flex flex-wrap justify-center gap-4">
         {tabs.map((tab) => (
           <button
             key={tab}
