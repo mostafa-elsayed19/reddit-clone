@@ -69,7 +69,7 @@ function PostCard({ post }) {
             }}
           />
 
-          <ShareButton />
+          <ShareButton postId={post?.id} />
         </div>
       </div>
     </article>

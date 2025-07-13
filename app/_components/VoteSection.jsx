@@ -2,17 +2,16 @@
 import { getVoteType, updateVote, getVotesCount } from "@/_services/votes";
 import { ArrowBigDown, ArrowBigUp } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import useAuthCheck from "@/Hooks/useAuthCheck";
+import toast from "react-hot-toast";
 
 function VoteSection({ votes: initialVotes, votableType, votableId }) {
   const { checkAuth } = useAuthCheck();
   const { data: session } = useSession();
   const [userVoteType, setUserVoteType] = useState("");
   const [votes, setVotes] = useState(initialVotes || 0);
-  const router = useRouter();
 
   const userId = session?.user.id;
 
@@ -32,7 +31,11 @@ function VoteSection({ votes: initialVotes, votableType, votableId }) {
   }, [votableId, userId]);
 
   async function handleVote(type) {
-    if (!checkAuth()) return;
+    const authCheck = checkAuth();
+    if (!authCheck.state) {
+      toast.error(authCheck.message);
+      return;
+    }
 
     const newVote = {
       user_id: userId,
